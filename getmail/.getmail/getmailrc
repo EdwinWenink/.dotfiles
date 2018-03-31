@@ -1,0 +1,12 @@
+[retriever]
+type = SimpleIMAPSSLRetriever
+server = imap-mail.outlook.com
+username = edwinwenink@hotmail.com
+port = 993
+
+[destination]
+type = Maildir
+path = ~/Mail/
+
+[options]
+read_all = False
