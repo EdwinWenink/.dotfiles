@@ -76,13 +76,21 @@ Plug 'junegunn/limelight.vim'
 " Initialize plugin system
 call plug#end()
 
-
 " Enable yanking to global clipboard for cross-terminal pasting
 set clipboard=unnamedplus
 
 " Disable spellchecking (':set spell' to enable again)
 set nospell
+
+" Enable syntax highlighting
 syntax on 
+
+" Map F8 to disabling auto indenting
+:nnoremap <F8> :setl noai nocin nosi ind=<CR>
+
+" Enable digraph mode for entering special characters. Ä is produced by typing
+" A, then backspace, then ':'
+" set digraph
 
 " Enable a colorscheme
 " let base16colorspace=256
@@ -115,3 +123,5 @@ autocmd! User GoyoLeave Limelight!
 " Markdown settings
 let g:vim_markdown_folding_disabled=1
 
+" Remapping keys
+:inoremap jj <Esc>
