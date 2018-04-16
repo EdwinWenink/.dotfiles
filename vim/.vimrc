@@ -82,6 +82,7 @@ set clipboard=unnamedplus
 " Disable spellchecking (':set spell' to enable again)
 set nospell
 
+
 " Enable syntax highlighting
 syntax on 
 
@@ -104,24 +105,40 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Select Latex Compile Defaults
-filetype plugin indent on
+filetype plugin indent off
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_MultipleCompileFormats='pdf'
 "set runtimepath=~/.vom,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
 
-" Settings for limelight (:help cterm-colors)
+" Settings for limelight with dark background (:help cterm-colors)
+"let g:limelight_conceal_ctermfg = 'gray'
+"let g:limelight_conceal_ctermfg = 240
+"let g:limelight_default_coefficient=0.8
+
+" Settings for limelight with white background (:help cterm-colors)
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_ctermfg = 240
-let g:limelight_default_coefficient=0.4
+let g:limelight_default_coefficient=0.8
+
+" Settings for limelight in combination with gVim
+let g:limelight_conceal_guifg = 'DarkGray'
+let g:limelight_conceal_guifg = '#777777' 
 
 " Integrating limelight with Goyo: when Goyo is entered, go in limelight mode
-autocmd! User GoyoEnter Limelight
+" Show line number only in prose mode
+" Upon entering Goyo, make the background light, resembling a paper
+autocmd! User GoyoEnter highlight Normal ctermfg=Black | highlight Normal ctermbg=White | set number | set bg=light | Limelight
+
 autocmd! User GoyoLeave Limelight!
+
 
 " Markdown settings
 let g:vim_markdown_folding_disabled=1
+
+" Set fold level: max level to fold on opening a file
+set foldlevel=2
 
 " Remapping keys
 :inoremap jj <Esc>
