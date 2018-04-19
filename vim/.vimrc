@@ -48,6 +48,9 @@ Plug 'tpope/vim-repeat'
 " Autocompletion for various languages (don't forget to run install.py)
 Plug 'Valloric/YouCompleteMe'
 
+" Autoclose bracket-like symbols
+Plug 'Townk/vim-autoclose'
+
 " NERDTree file explorer
 Plug 'scrooloose/nerdtree'
 
@@ -72,6 +75,12 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
+" Markdown / Writing
+Plug 'tpope/vim-markdown'
+Plug 'jtratner/vim-flavored-markdown'
+Plug 'godlygeek/tabular'
+Plug 'reedes/vim-pencil'
+Plug 'reedes/vim-colors-pencil'
 
 " Initialize plugin system
 call plug#end()
@@ -131,11 +140,23 @@ let g:limelight_conceal_guifg = '#777777'
 " Upon entering Goyo, make the background light, resembling a paper
 autocmd! User GoyoEnter highlight Normal ctermfg=Black | highlight Normal ctermbg=White | set number | set bg=light | Limelight
 
-autocmd! User GoyoLeave Limelight!
-
+autocmd! User GoyoLeave Limelight! | set bg=dark | highlight Normal ctermbg=Black | set number!
 
 " Markdown settings
 let g:vim_markdown_folding_disabled=1
+let g:pencil#wrapModeDefault = 'soft'
+let g:pencil_higher_contrast_ui = 1
+let g:pencil_terminal_italics = 1
+
+augroup pencil
+	autocmd!
+	autocmd Filetype markdown,mkd call pencil#init()
+	autocmd Filetype text call pencil#init()
+augroup END
+
+" Change default 8 column tab to 4 column tab
+:set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
 
 " Set fold level: max level to fold on opening a file
 set foldlevel=2
