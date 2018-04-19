@@ -36,6 +36,8 @@ Plug 'vim-airline/vim-airline-themes'
 " Default settings everyone can agree on
 Plug 'tpope/vim-sensible'
 
+" CODING/IDE SIMULATION-------------------------------------
+
 " Set of handy mappings (see documentation for mnemonics)
 Plug 'tpope/vim-unimpaired'
 
@@ -63,13 +65,14 @@ Plug 'scrooloose/nerdcommenter'
 " Keeps track of git changes
 Plug 'airblade/vim-gitgutter'
 
+" Display tags of current file in a sidebar / Class outline
+Plug 'majutsushi/tagbar'
+
+" WRITING ----------------------------------
+
 " Integration of vim with pandoc
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-
-" Install theme packages
-Plug 'chriskempson/base16-vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
 
 " Goyo and limelight for focused writing
 Plug 'junegunn/goyo.vim'
@@ -82,8 +85,20 @@ Plug 'godlygeek/tabular'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
+" THEME -------------------------------------
+
+" Install theme packages
+Plug 'chriskempson/base16-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 " Initialize plugin system
 call plug#end()
+
+
+" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+
+
+" GENERAL SETTINGS -----------------------------------
 
 " Enable yanking to global clipboard for cross-terminal pasting
 set clipboard=unnamedplus
@@ -91,12 +106,14 @@ set clipboard=unnamedplus
 " Disable spellchecking (':set spell' to enable again)
 set nospell
 
-
 " Enable syntax highlighting
 syntax on 
 
-" Map F8 to disabling auto indenting
-:nnoremap <F8> :setl noai nocin nosi ind=<CR>
+" Change default 8 column tab to 4 column tab
+:set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+
+" Set fold level: max level to fold on opening a file
+set foldlevel=2
 
 " Enable digraph mode for entering special characters. Ä is produced by typing
 " A, then backspace, then ':'
@@ -106,6 +123,31 @@ syntax on
 " let base16colorspace=256
 " colorscheme base16-railscasts
 
+" REMAPS ----------------------------------------
+
+" Map F8 to disabling auto indenting
+:nnoremap <F8> :setl noai nocin nosi <CR>
+
+" Map F9 to show tag sidebar (make sure to have ctags installed)
+:nmap <F9> :TagbarToggle<CR>
+
+" Escaping insert mode the lazy way 
+:inoremap jj <Esc>
+
+" Navigate between splits
+nnoremap <C-h> <C-w>h
+"j seems to be broken for some reason
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" CUSTOM COMMANDS ----------------------------------
+
+" Compile java files from within vim
+:command Javac !javac $(find . -name "*.java")
+
+" GENERAL PLUGIN SETTINGS -----------------------------
+
 " Airline settings
 set laststatus=2 
 
@@ -113,13 +155,7 @@ set laststatus=2
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-" Select Latex Compile Defaults
-filetype plugin indent off
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_MultipleCompileFormats='pdf'
-"set runtimepath=~/.vom,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
+" MARKDOWN/PROSE SETTINGS -------------------------------
 
 " Settings for limelight with dark background (:help cterm-colors)
 "let g:limelight_conceal_ctermfg = 'gray'
@@ -154,12 +190,13 @@ augroup pencil
 	autocmd Filetype text call pencil#init()
 augroup END
 
-" Change default 8 column tab to 4 column tab
-:set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+" COMPILING STUFF
 
+" Select Latex Compile Defaults
+filetype plugin indent off
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
+let g:Tex_DefaultTargetFormat='pdf'
+let g:Tex_MultipleCompileFormats='pdf'
+"set runtimepath=~/.vom,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
 
-" Set fold level: max level to fold on opening a file
-set foldlevel=2
-
-" Remapping keys
-:inoremap jj <Esc>
