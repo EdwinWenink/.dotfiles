@@ -50,14 +50,21 @@ Plug 'tpope/vim-repeat'
 " Autocompletion for various languages (don't forget to run install.py)
 Plug 'Valloric/YouCompleteMe'
 
-" Autoclose bracket-like symbols
-Plug 'Townk/vim-autoclose'
+" Autclose bracket-like symbols
+Plug 'jiangmiao/auto-pairs'
 
 " NERDTree file explorer
 Plug 'scrooloose/nerdtree'
 
 " Git extension for NERDTree
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Run commands without vim in tmux pane with VimuxRunCommand (you are supposed
+" to run vim within tmux then)
+Plug 'benmills/vimux'
+
+" Smooth navigation between vim and tmux panels
+Plug 'christoomey/vim-tmux-navigator'
 
 " Add shortcuts for efficiently commenting out lines in visual mode (cc to comment out selection, c<space> to toggle comment of line)
 Plug 'scrooloose/nerdcommenter'
@@ -135,11 +142,11 @@ set foldlevel=2
 :inoremap jj <Esc>
 
 " Navigate between splits
-nnoremap <C-h> <C-w>h
-"j seems to be broken for some reason
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" Currently vim-tmux-navigation already takes care of this
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-J>
+"nnoremap <C-L> <C-W><C-L>
+"nnoremap <C-H> <C-W><C-H>
 
 " CUSTOM COMMANDS ----------------------------------
 
@@ -154,6 +161,17 @@ set laststatus=2
 "If no file is specified, open NERDTree automatically 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" VIM / TMUX INTEGRATION -------------------------------
+
+" Hide tmux status bar upon entering vim, and re-enable when leaving vim
+autocmd VimEnter,VimLeave * silent !tmux set status
+
+" Prompt for a command to run in tmux from within vim
+map <Leader>vp :VimuxPromptCommand<CR>
+
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
 
 " MARKDOWN/PROSE SETTINGS -------------------------------
 
