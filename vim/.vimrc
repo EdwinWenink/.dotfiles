@@ -92,6 +92,9 @@ Plug 'godlygeek/tabular'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
+" Latex
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+
 " THEME -------------------------------------
 
 " Install theme packages
@@ -102,7 +105,7 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 
-" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 " GENERAL SETTINGS -----------------------------------
@@ -122,6 +125,10 @@ syntax on
 " Set fold level: max level to fold on opening a file
 set foldlevel=2
 
+" Set updatetime of .swp file (changed for faster LaTeX preview).
+" Default=4000
+set updatetime=1000
+
 " Enable digraph mode for entering special characters. Ä is produced by typing
 " A, then backspace, then ':'
 " set digraph
@@ -131,6 +138,9 @@ set foldlevel=2
 " colorscheme base16-railscasts
 
 " REMAPS ----------------------------------------
+
+" Map <F6> to LaTeX preview mode
+:nnoremap <F6> :LLPStartPreview <CR>
 
 " Map F8 to disabling auto indenting
 :nnoremap <F8> :setl noai nocin nosi <CR>
