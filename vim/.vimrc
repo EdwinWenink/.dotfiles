@@ -129,6 +129,12 @@ set foldlevel=2
 " Default=4000
 set updatetime=1000
 
+" Settings for vim search
+set incsearch
+set hlsearch
+
+" Automatically re-read files files if unmodified in vim
+set autoread
 " Enable digraph mode for entering special characters. Ä is produced by typing
 " A, then backspace, then ':'
 " set digraph
@@ -162,6 +168,11 @@ set updatetime=1000
 
 " Compile java files from within vim
 :command Javac !javac $(find . -name "*.java")
+
+" 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
+command! -nargs=1 Ngrep lvimgrep "<args>" $NOTES_DIR/**/*.md
+nnoremap <leader>n :Ngrep 
+" Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
 
 " GENERAL PLUGIN SETTINGS -----------------------------
 
@@ -202,9 +213,31 @@ let g:limelight_conceal_guifg = '#777777'
 " Integrating limelight with Goyo: when Goyo is entered, go in limelight mode
 " Show line number only in prose mode
 " Upon entering Goyo, make the background light, resembling a paper
-autocmd! User GoyoEnter highlight Normal ctermfg=Black | highlight Normal ctermbg=White | set number | set bg=light | Limelight
 
-autocmd! User GoyoLeave Limelight! | set bg=dark | highlight Normal ctermbg=Black | set number!
+function! s:goyo_enter()
+  silent !tmux set status off
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  set number
+  highlight Normal ctermbg=White
+  highlight Normal ctermfg=Black
+endfunction
+
+function! s:goyo_leave()
+  silent !tmux set status on
+  set showmode
+  set showcmd
+  set scrolloff=5
+  Limelight!
+endfunction
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+"autocmd! User GoyoEnter highlight Normal ctermfg=Black | highlight Normal ctermbg=White | set number | set bg=light | Limelight
+
+"autocmd! User GoyoLeave Limelight! | set bg=dark | highlight Normal ctermbg=Black | set number!
 
 " Markdown settings
 let g:vim_markdown_folding_disabled=1
