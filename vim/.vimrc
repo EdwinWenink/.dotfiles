@@ -139,9 +139,14 @@ set autoread
 " A, then backspace, then ':'
 " set digraph
 
+" Disable gui clutter for gVim
+set guioptions-=m  "menu bar
+set guioptions-=T  "toolbar
+set guioptions-=r  "scrollbar
+
 " Enable a colorscheme
 " let base16colorspace=256
-" colorscheme base16-railscasts
+" colorscheme base16-google-light
 
 " REMAPS ----------------------------------------
 
