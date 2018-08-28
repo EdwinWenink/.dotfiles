@@ -147,14 +147,24 @@ set guioptions-=r  "scrollbar
 " Enable a colorscheme
 " let base16colorspace=256
 " colorscheme base16-google-light
+colorscheme dracula
 
 " REMAPS ----------------------------------------
 
+" Map <F2> to NERDTree
+:nnoremap <F2> :NERDTreeToggle<CR>
+
+" Map <F3> to open writer mode
+:nnoremap <F3> :Goyo<CR>
+
+" Open locallist vertically with custom function
+:nnoremap <F4> :Vlist<CR>
+
 " Map <F6> to LaTeX preview mode
-:nnoremap <F6> :LLPStartPreview <CR>
+:nnoremap <F6> :LLPStartPreview<CR>
 
 " Map F8 to disabling auto indenting
-:nnoremap <F8> :setl noai nocin nosi <CR>
+:nnoremap <F8> :setl noai nocin nosi<CR>
 
 " Map F9 to show tag sidebar (make sure to have ctags installed)
 :nmap <F9> :TagbarToggle<CR>
@@ -175,9 +185,16 @@ set guioptions-=r  "scrollbar
 :command Javac !javac $(find . -name "*.java")
 
 " 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
-command! -nargs=1 Ngrep lvimgrep "<args>" $NOTES_DIR/**/*.md
+command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
 nnoremap <leader>n :Ngrep 
 " Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
+" The \c escape makes the search case insensitive
+
+" Open local list in a right vertical split (good for Ngrep results)
+command! Vlist botright vertical lopen | vertical resize 40
+
+" Find and list all Markdown headers
+nnoremap <leader>h :g/^#/#<CR>
 
 " GENERAL PLUGIN SETTINGS -----------------------------
 
@@ -225,8 +242,9 @@ function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
   set number
-  highlight Normal ctermbg=White
-  highlight Normal ctermfg=Black
+  Limelight
+  " highlight Normal ctermbg=White
+  " highlight Normal ctermfg=Black
 endfunction
 
 function! s:goyo_leave()
