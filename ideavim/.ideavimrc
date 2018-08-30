@@ -1,0 +1,6 @@
+" Vimrc for ideavim plugin for amongst others PyCharm
+" See https://github.com/JetBrains/ideavim
+
+set surround
+inoremap jj <Esc>
+set incsearch
