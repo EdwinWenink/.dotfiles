@@ -48,7 +48,13 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
 " Autocompletion for various languages (don't forget to run install.py)
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
+
+" Autocompletion that only uses native vim autocomplete features
+Plug 'lifepillar/vim-mucomplete'
+
+" Syntax checking for programming languages
+Plug 'vim-syntastic/syntastic'
 
 " Autclose bracket-like symbols
 Plug 'jiangmiao/auto-pairs'
@@ -101,6 +107,9 @@ Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 Plug 'chriskempson/base16-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 
+" Icons for NERDTree and vim airline
+Plug 'ryanoasis/vim-devicons'
+
 " Initialize plugin system
 call plug#end()
 
@@ -149,6 +158,9 @@ set guioptions-=r  "scrollbar
 " colorscheme base16-google-light
 colorscheme dracula
 
+" Set encoding
+set encoding=UTF-8
+
 " REMAPS ----------------------------------------
 
 " Map <F2> to NERDTree
@@ -179,6 +191,12 @@ colorscheme dracula
 "nnoremap <C-L> <C-W><C-L>
 "nnoremap <C-H> <C-W><C-H>
 
+" Disable arrow movement, resize splits instead
+nnoremap <Up> :resize +2<CR>
+nnoremap <Down> :resize -2<CR>
+nnoremap <Left> :vertical-resize +2<CR>
+nnoremap <Right> :vertical-resize -2<CR> 
+
 " CUSTOM COMMANDS ----------------------------------
 
 " Compile java files from within vim
@@ -204,6 +222,23 @@ set laststatus=2
 "If no file is specified, open NERDTree automatically 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" MUComplete settings
+set completeopt+=menuone
+set completeopt+=noselect
+set shortmess+=c "Shut off completion messages
+set belloff+=ctrlg "Disable vim beeping during completion
+let g:mucomplete#enable_auto_at_startup = 1
 
 " VIM / TMUX INTEGRATION -------------------------------
 
