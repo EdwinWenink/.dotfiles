@@ -178,7 +178,7 @@ exec --no-startup-id nm-applet -startintray
 # exec --no-startup-id i3-msg 'exec /usr/bin/task'
 # exec --no-startup-id Task
 # I added Task to dmenu-desktop, by making a .desktop file in ~/.local/share/applications. This was necessary to explicitly state it needs to be launched in a terminal. I can run it through dmenu now (mod + d), but not yet from the i3 config it seems. Next step: actually correctly invoke it.
-exec --no-startup-id terminator -e "cat /usr/bin/ascii/ju87.txt; screenfetch; task; getmail | grep messages "
+#exec --no-startup-id terminator -e "cat /usr/bin/ascii/ju87.txt; screenfetch; task; getmail | grep messages "
 #python2 /usr/bin/gcalcli agenda 0:00 23:59
 
 ## Want to be able to perform commands after command execution 
