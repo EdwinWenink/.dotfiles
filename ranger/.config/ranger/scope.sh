@@ -75,6 +75,11 @@ handle_extension() {
             odt2txt "${FILE_PATH}" && exit 5
             exit 1;;
 
+		# RTF
+		rtf)
+			catdoc "${FILE_PATH}" && exit 5
+			exit 1;;
+
         # HTML
         htm|html|xhtml)
             # Preview as text conversion
