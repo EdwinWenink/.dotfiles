@@ -17,9 +17,6 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
-" Using a non-master branch
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
 Plug 'fatih/vim-go', { 'tag': '*' }
 
@@ -46,9 +43,6 @@ Plug 'tpope/vim-surround'
 
 " Support for using ds, cs and yss with the . command
 Plug 'tpope/vim-repeat'
-
-" Autocompletion for various languages (don't forget to run install.py)
-" Plug 'Valloric/YouCompleteMe'
 
 " Autocompletion that only uses native vim autocomplete features
 Plug 'lifepillar/vim-mucomplete'
@@ -154,7 +148,8 @@ set guioptions-=T  "toolbar
 set guioptions-=r  "scrollbar
 
 " Enable a colorscheme
-" let base16colorspace=256
+let base16colorspace=256
+set t_Co=256
 " colorscheme base16-google-light
 colorscheme dracula
 

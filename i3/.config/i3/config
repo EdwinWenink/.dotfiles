@@ -183,7 +183,7 @@ exec --no-startup-id nm-applet -startintray
 
 ## Want to be able to perform commands after command execution 
 #exec --no-startup-id terminator -e "bash -c "cat /usr/bin/ascii/ju87.txt; screenfetch""
-exec terminator
+exec --no-startup-id terminator -e "ranger"
 
 # Start browser & disown
 bindsym $mod+Shift+Return exec firefox & disown
@@ -202,8 +202,9 @@ for_window [class="^.*"] border pixel 1
 #Assign firefox to workspace 2 (replace '2' by variable name used for workspace, if applicable")
 assign [class="Firefox"] 2
 
-#Assign NetBeans to workspace 3
+# Assign IDEs to workspace 3
 assign [class="NetBeans"] 3
+assign [class="Eclipse"] 3
 
 #Assign spotify to workspace 4. This is not handled atm for some reason, but the class name is correct!
 assign [class="Spotify"] 4
