@@ -1,0 +1,18 @@
+sudo: required
+dist: trusty
+
+before_install:
+- sudo apt-get -qq update
+- sudo apt-get install -y --no-install-recommends
+  texlive-latex-base
+  texlive-latex-recommended
+  texlive-latex-extra
+  texlive-fonts-recommended
+  latex-xcolor
+- sudo apt-get install -y pandoc
+
+script:
+  - pandoc --template=template-letter.tex example/letter.md -o pandoc-letter.pdf
+
+after_success:
+  - curl --upload-file ./pandoc-letter.pdf https://transfer.sh/pandoc-letter.pdf
