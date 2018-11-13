@@ -1,0 +1,9 @@
+color	status		brightblue		default 
+color	tree		magenta			default
+color	index		yellow			default ~N	
+
+# Set header fg to white, and bg to black, exept for subject
+color	header		white			default .	
+color	header		yellow			black ^Subject
+color	indicator	default			red
+color	markers		cyan			black

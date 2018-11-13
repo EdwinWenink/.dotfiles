@@ -1,21 +1,54 @@
+set charset=UTF-8
 set mbox_type=Maildir
 set realname='Edwin Wenink'
+set imap_user = edwinwenink@hotmail.com
+set ssl_starttls=yes
+# always use SSL when connecting to a server
+set ssl_force_tls=yes
 set sendmail="/usr/bin/msmtp"
 set from=edwinwenink@hotmail.com
-set folder=~/Mail
-set spoolfile=+/
-set sort = reverse-date-received
+set folder = imaps://imap-mail.outlook.com # directly connect to remote server
+# set folder=~/Mail # Select for using a local inbox (use getmail)
+set spoolfile=+Inbox
+# Save sent messages locally
+set record =+Sent
+# mailboxes =Inbox =Archive # Use this setting for local mailboxes
+# The following two settings automatically get folder structure from remote server
+set imap_list_subscribed
+set imap_check_subscribed
 
-# Where to save 
+# Set primary and secondary sorting methods
+# I always want the most recent messages to be on top
+# However, threads are listed by the oldest message normally
+# I want threads to be sorted based on their last message. See:
+set sort= threads
+set sort_aux = reverse-last-date-received
+
+# Cache headers for speedup 
 set header_cache=~/.cache/mutt
 
 # Etc
-set mail_check = 30
+set mail_check = 120
+unset imap_passive
 set imap_keepalive = 900
 set editor = "vim"
+# set sidebar_visible
+# set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats
+
+# Vim-like bindings
+bind pager j next-line
+bind pager k previous-line
+bind pager g top
+bind pager G bottom
+bind attach,index,pager } next-page
+bind attach,index,pager { previous-page
+bind attach,index g first-entry
+bind attach,index G last-entry
 
 # Load colour scheme
-source ~/.config/neomutt/solarized-dark-16.muttrc
+# source ~/.config/neomutt/solarized-dark-16.muttrc
+source ~/.config/neomutt/mycolorscheme.muttrc
 
 ## Keybindings for integration with notmuch
 macro index <F8> \

@@ -6,7 +6,7 @@ port = 993
 
 [destination]
 type = Maildir
-path = ~/Mail/
+path = ~/Mail/Inbox/
 
 [options]
 read_all = False

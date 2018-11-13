@@ -101,8 +101,9 @@ Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 Plug 'chriskempson/base16-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 
-" Icons for NERDTree and vim airline
-Plug 'ryanoasis/vim-devicons'
+" Icons for NERDTree and vim airline (Disabld for now because it seemed to
+" introduce lag)
+" Plug 'ryanoasis/vim-devicons'
 
 " Initialize plugin system
 call plug#end()
@@ -178,6 +179,9 @@ set encoding=UTF-8
 
 " Escaping insert mode the lazy way 
 :inoremap jj <Esc>
+
+" Use ESC to remove the highlighting from the last search
+:nnoremap <silent> <Esc> :nohlsearch<CR><CR>
 
 " Navigate between splits
 " Currently vim-tmux-navigation already takes care of this
