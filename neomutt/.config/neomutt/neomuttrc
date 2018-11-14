@@ -36,6 +36,10 @@ set editor = "vim"
 # set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
 
+# Set options for viewing html mail
+auto_view text/html
+alternative_order text/plain text/enriched text/html
+
 # Vim-like bindings
 bind pager j next-line
 bind pager k previous-line
