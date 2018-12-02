@@ -181,7 +181,7 @@ set encoding=UTF-8
 :inoremap jj <Esc>
 
 " Use ESC to remove the highlighting from the last search
-:nnoremap <silent> <Esc> :nohlsearch<CR><CR>
+" :nnoremap <silent> <Esc> :nohlsearch<CR><CR>
 
 " Navigate between splits
 " Currently vim-tmux-navigation already takes care of this
