@@ -20,7 +20,7 @@
 
 !URxvt settings
 URxvt*termName: screen-256color
-URxvt*geometry: 1980x1080
+URxvt*geometry: 160x75
 URxvt*loginShell: true
 URxvt*scrollBar: false
 URxvt*colorUL: yellow
@@ -28,6 +28,3 @@ URxvt*underlineColor: yellow
 URxvt*cursorBlink: true
 URxvt*cursorColor: magenta
 URxvt*cursorUnderline: true
-URxvt*
-URxvt*
-URxvt*

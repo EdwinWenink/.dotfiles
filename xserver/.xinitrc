@@ -34,7 +34,7 @@ fi
 
 if [ "$(tty)" = "/dev/tty1" ]; then
 	startx &
-	exec urxvt
+	exec urxvt -e tmux
 fi
 
 # Code for booting up i3 instead on tty2
