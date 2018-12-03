@@ -80,6 +80,7 @@ Plug 'majutsushi/tagbar'
 " Integration of vim with pandoc
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'yashsriv/vim-instant-pandoc' " Currently does not work correctly 
 
 " Goyo and limelight for focused writing
 Plug 'junegunn/goyo.vim'
@@ -136,6 +137,9 @@ set updatetime=1000
 " Settings for vim search
 set incsearch
 set hlsearch
+
+" Load relevant plugin file
+filetype plugin on
 
 " Automatically re-read files files if unmodified in vim
 set autoread
@@ -306,6 +310,14 @@ augroup pencil
 	autocmd Filetype markdown,mkd call pencil#init()
 	autocmd Filetype text call pencil#init()
 augroup END
+
+" Markdown preview with pandoc (vim-instant-pandoc plugin)
+let g:instant_pandoc_port = 8080
+"let g:instant_pandoc_slow = 1
+let g:instant_pandoc_autostart = 0
+let g:instant_pandoc_open_to_the_world = 0
+let g:insant_pandoc_allow_unsafe_content = 0
+let g:instant_pandoc_allow_external_content = 1
 
 " COMPILING STUFF
 

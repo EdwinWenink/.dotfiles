@@ -182,8 +182,8 @@ exec --no-startup-id nm-applet -startintray
 #python2 /usr/bin/gcalcli agenda 0:00 23:59
 
 ## Want to be able to perform commands after command execution 
-#exec --no-startup-id terminator -e "bash -c "cat /usr/bin/ascii/ju87.txt; screenfetch""
-exec --no-startup-id terminator -e "ranger"
+# exec --no-startup-id terminator -e "bash -c "cat /usr/bin/ascii/ju87.txt; screenfetch""
+# exec --no-startup-id terminator -e "ranger"
 
 # Start browser & disown
 bindsym $mod+Shift+Return exec firefox & disown
