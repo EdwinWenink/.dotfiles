@@ -29,4 +29,5 @@ URxvt*cursorBlink: true
 URxvt*cursorColor: magenta
 URxvt*cursorUnderline: true
 URxvt*depth: 32
+!URxvt*font: xft:FontAwesome:pixelsize=15
 URxvt*font: xft:Inconsolata:pixelsize=15

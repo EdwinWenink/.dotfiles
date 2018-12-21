@@ -21,6 +21,13 @@ alert = #bd2c40
 line-color = #FFFFFF
 transparent = #00FFFFFF
 
+# alert = #40
+black = #000
+white = #dfdfdf
+indigo = #3F51B5
+deeppurple = #673AB7
+red = #F44336
+
 [bar/top]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
@@ -47,7 +54,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Roman:pixelsize=10;1
+font-0 = xft:Inconsolata:pixelsize=10;0
+font-1 = Roman:pixelsize=9;1
 ;font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = Font Awesome 5 Free:pixelsize=10;3
 ;font-2 = siji:pixelsize=10;1
@@ -63,8 +71,53 @@ tray-background = #00FFFFF
 ; ${colors.transparent}
 ; #0063ff
 
-;wm-restack = bspwm
-;wm-restack = i3
+wm-restack = i3
+
+;override-redirect = true
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+
+[bar/bottom]
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 25
+;offset-x = 1%
+;offset-y = 1%
+radius = 4.0
+fixed-center = false
+bottom = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 1
+;line-color = #f00
+line-color = ${colors.transparent}
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 0
+padding-right = 2 
+
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = Roman:pixelsize=9;1
+
+modules-left =  
+modules-center = 
+modules-right =
+
+tray-position = right
+tray-padding = 2
+;tray-transparent = true
+tray-background = #00FFFFF
 
 ;override-redirect = true
 
@@ -76,6 +129,33 @@ tray-background = #00FFFFF
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+
+
+[bar/test]
+bottom = true
+override-redirect = true
+wm-restack = i3
+widtdh = 100%
+height = 15
+radius = 0
+fixed-center = false
+
+background = ${colors.transparent}
+foreground = ${colors.foreground}
+
+line-size = 1
+line-color = #f00
+
+border-size = 1
+border-color = #222
+
+font-0 = Roman:pixelsize=10;1
+font-1 = FontAwesome:pixelsize=9;2
+
+modules-left=
+modules-center=
+modules-right = cpu
 
 [module/xwindow]
 type = internal/xwindow
