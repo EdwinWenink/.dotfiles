@@ -319,6 +319,9 @@ let g:instant_pandoc_open_to_the_world = 0
 let g:insant_pandoc_allow_unsafe_content = 0
 let g:instant_pandoc_allow_external_content = 1
 
+" Set default pdf reader for LLPStartPreview (Latex Live Preview)
+let g:livepreview_previewer = 'zathura'
+
 " COMPILING STUFF
 
 " Select Latex Compile Defaults

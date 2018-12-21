@@ -17,6 +17,21 @@ set record =+Sent
 set imap_list_subscribed
 set imap_check_subscribed
 
+# Everything GPG, PGP
+set crypt_autosign
+# set pgp_default_version=gpg
+# set pgp_replysignencrypted
+# set pgp_show_unusable=no
+# set pgp_sign_command="gpg -s"
+# set pgp_verify_command="gpg --verify"
+# set pgp_getkeys_command="gpg -k"
+# set pgp_decode_command=""
+# set pgp_decrypt_command=""
+# set pgp_encrypt_only_command=""
+# set pgp_encrypt_sign_command=""
+# set pgp_verify_key_command=""
+set crypt_use_gpgme=yes
+
 # Set primary and secondary sorting methods
 # I always want the most recent messages to be on top
 # However, threads are listed by the oldest message normally
@@ -27,7 +42,7 @@ set sort_aux = reverse-last-date-received
 # Cache headers for speedup 
 set header_cache=~/.cache/mutt
 
-# Etc
+# General settings
 set mail_check = 120
 unset imap_passive
 set imap_keepalive = 900
@@ -39,6 +54,10 @@ set mail_check_stats
 # Set options for viewing html mail
 auto_view text/html
 alternative_order text/plain text/enriched text/html
+
+# Set signature
+set signature="~/.config/neomutt/signature.txt"
+
 
 # Vim-like bindings
 bind pager j next-line
