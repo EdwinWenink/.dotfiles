@@ -128,7 +128,7 @@ syntax on
 :set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 
 " Set fold level: max level to fold on opening a file
-set foldlevel=2
+set foldlevel=1
 
 " Set updatetime of .swp file (changed for faster LaTeX preview).
 " Default=4000
@@ -183,6 +183,10 @@ set encoding=UTF-8
 
 " Escaping insert mode the lazy way 
 :inoremap jj <Esc>
+
+" Use space to quickly open and close folds
+:nnoremap <Space> za
+:vnoremap <Space> za
 
 " Use ESC to remove the highlighting from the last search
 " :nnoremap <silent> <Esc> :nohlsearch<CR><CR>
