@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 # Default prompt
-# PS1='[\u@\h \W]\$ '
+#PS1='[\u@\h \W]\$ '
 
 ## Custom Prompt 
 # enter blinking mode - red
@@ -47,7 +47,7 @@ __prompt_command() {
 		_BRANCH_STR=""
 	fi
 
-    PS1="\e[3${HOSTCOLOR}m[\h|\e[3${USERCOLOR}m\u] \e[3${PATHCOLOR}m \w $_BRANCH_STR \n ";
+    PS1="\e[3${HOSTCOLOR}m[\h|\e[3${USERCOLOR}m\u] \e[3${PATHCOLOR}m\W $_BRANCH_STR ";
 
     if [ $EXITCODE == 0 ]; then
         PS1+="\e[32m> \e[0m";
@@ -70,9 +70,7 @@ cd() {
   fi
 }
 
-# >>> BEGIN ADDED BY CNCHI INSTALLER
 BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/vim
-# <<< END ADDED BY CNCHI INSTALLER
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -70,10 +70,10 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'scrooloose/nerdcommenter'
 
 " Keeps track of git changes
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 " Display tags of current file in a sidebar / Class outline
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 
 " WRITING ----------------------------------
 
@@ -330,9 +330,11 @@ let g:livepreview_previewer = 'zathura'
 
 " Select Latex Compile Defaults
 filetype plugin indent off
+filetype indent on
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_MultipleCompileFormats='pdf'
-"set runtimepath=~/.vom,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
-
+" View rules
+" let g:Tex_ViewRule_pdf='xdg-open'
+let g:Tex_ViewRule_pdf='zathura'

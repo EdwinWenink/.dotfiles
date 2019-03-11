@@ -19,7 +19,11 @@
 *.color15:    #E6E6E6
 
 !URxvt settings
-URxvt*termName: screen-256color
+! Unknown terminal name problem is caused by Anaconda for some reasoning overriding terminfo directories
+! Run `infocmp -D` to see terminfo dirs. 
+! Right term info resides in /usr/share/terminfo/r/rxvt-unicode-256color
+URxvt*termName: rxvt-unicode-256color
+!URxvt*termName: xterm-256color
 URxvt*geometry: 160x75
 URxvt*loginShell: true
 URxvt*scrollBar: false
@@ -31,3 +35,9 @@ URxvt*cursorUnderline: true
 URxvt*depth: 32
 !URxvt*font: xft:FontAwesome:pixelsize=15
 URxvt*font: xft:Inconsolata:pixelsize=15
+
+!Fix home and end button
+!URxvt.keysym.Home: \033[1~
+!URxvt.keysum.End: \033[4~
+!URxvt.keysum.KP_Home: \033[1~
+!URxvt.keysum.KP_End: \033[4~

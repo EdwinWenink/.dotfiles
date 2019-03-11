@@ -200,7 +200,7 @@ gaps inner 20
 gaps outer -5
 
 # Start polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+# exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Float windows by default
 # for_window [class="^.*"] floating enable
