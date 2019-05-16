@@ -7,7 +7,7 @@ call plug#begin('~/.vim/plugged')
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 
-" Any valid git URL is allowed
+" Any valid git URL is allowed; check dashboard or activity. GHD! EdwinWenink; GHA! EdwinWenink
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
 " Multiple Plug commands can be written in a single line using | separators
@@ -15,28 +15,19 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-Plug 'fatih/vim-go', { 'tag': '*' }
-
-" Plugin options
-Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
 " Airline bar at bottom of vim
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 
 " Default settings everyone can agree on
-Plug 'tpope/vim-sensible'
+" Plug 'tpope/vim-sensible'
 
-" CODING/IDE SIMULATION-------------------------------------
-
-" Set of handy mappings (see documentation for mnemonics)
-Plug 'tpope/vim-unimpaired'
+" ------------------ CODING/IDE SIMULATION ---------------------------
 
 " Surround with brackets (yss new surroundings, cst" change, ds" delete )
 Plug 'tpope/vim-surround'
@@ -59,6 +50,9 @@ Plug 'scrooloose/nerdtree'
 " Git extension for NERDTree
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Git wrapper
+Plug 'tpope/vim-fugitive'
+
 " Run commands without vim in tmux pane with VimuxRunCommand (you are supposed
 " to run vim within tmux then)
 Plug 'benmills/vimux'
@@ -67,15 +61,24 @@ Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Add shortcuts for efficiently commenting out lines in visual mode (cc to comment out selection, c<space> to toggle comment of line)
-Plug 'scrooloose/nerdcommenter'
+"Plug 'scrooloose/nerdcommenter'
+
+" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+
+" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+"Plug 'fatih/vim-go', { 'tag': '*' }
+"Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Keeps track of git changes
 " Plug 'airblade/vim-gitgutter'
 
 " Display tags of current file in a sidebar / Class outline
-" Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
-" WRITING ----------------------------------
+" Full-featured document outliner, e.g. voor markdown or latex (:Voom latex)
+Plug 'vim-scripts/VOoM'
+
+" ----------------- WRITING ---------------------------
 
 " Integration of vim with pandoc
 Plug 'vim-pandoc/vim-pandoc'
@@ -89,18 +92,19 @@ Plug 'junegunn/limelight.vim'
 " Markdown / Writing
 Plug 'tpope/vim-markdown'
 Plug 'jtratner/vim-flavored-markdown'
-Plug 'godlygeek/tabular'
+"Plug 'godlygeek/tabular'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
 " Latex
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
-" THEME -------------------------------------
+" ----------------- THEME ----------------------
 
 " Install theme packages
 Plug 'chriskempson/base16-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'swalladge/paper.vim'
 
 " Icons for NERDTree and vim airline (Disabld for now because it seemed to
 " introduce lag)
@@ -124,8 +128,8 @@ set nospell
 " Enable syntax highlighting
 syntax on 
 
-" Change default 8 column tab to 4 column tab
-:set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+" Change default 8 column tab to 4 column tab and expand to spaces
+:set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 " Set fold level: max level to fold on opening a file
 set foldlevel=1
@@ -224,16 +228,16 @@ nnoremap <leader>h :g/^#/#<CR>
 " GENERAL PLUGIN SETTINGS -----------------------------
 
 " Airline settings
-set laststatus=2 
+" set laststatus=2 
 
 "If no file is specified, open NERDTree automatically 
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 let g:syntastic_always_populate_loc_list = 0 "Enabling this breaks my note search function which requires access to the locallist
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1

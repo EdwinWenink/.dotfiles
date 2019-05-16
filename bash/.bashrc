@@ -74,3 +74,8 @@ BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/vim
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# BEGIN LAMACHINE MANAGED BLOCK - path
+if [[ "$PATH" != *"/home/edwin/bin"* ]]; then
+    export PATH=~/bin:$PATH #add ~/bin to $PATH, that is where the activation scripts are
+fi
+# END LAMACHINE MANAGED BLOCK - path

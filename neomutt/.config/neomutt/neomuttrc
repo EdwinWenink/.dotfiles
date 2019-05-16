@@ -18,7 +18,7 @@ set imap_list_subscribed
 set imap_check_subscribed
 
 # Everything GPG, PGP
-set crypt_autosign
+# set crypt_autosign
 # set pgp_default_version=gpg
 # set pgp_replysignencrypted
 # set pgp_show_unusable=no

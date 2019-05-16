@@ -200,7 +200,7 @@ gaps inner 20
 gaps outer -5
 
 # Start polybar
-# exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Float windows by default
 # for_window [class="^.*"] floating enable
@@ -219,6 +219,9 @@ exec --no-startup-id nm-applet -startintray
 ## Want to be able to perform commands after command execution 
 # exec --no-startup-id terminator -e "bash -c "cat /usr/bin/ascii/ju87.txt; screenfetch""
 # exec --no-startup-id terminator -e "ranger"
+# exec --no-startup-id urxvt 
+# exec --no-startup-id emacs
+exec --no-startup-id i3-msg 'workspace 9; exec urxvt -e /usr/bin/weechat'
 
 # Start browser & disown
 # bindsym $mod+Shift+Return exec firefox & disown
@@ -249,3 +252,4 @@ assign [class="Eclipse"] 3
 
 #Assign spotify to workspace 4. This is not handled atm for some reason, but the class name is correct!
 assign [class="Spotify"] 4
+
