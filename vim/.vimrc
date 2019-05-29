@@ -163,7 +163,8 @@ set t_Co=256
 colorscheme dracula
 
 " Set encoding
-set encoding=UTF-8
+set encoding=utf-8
+set fileencoding=utf-8
 
 " REMAPS ----------------------------------------
 
