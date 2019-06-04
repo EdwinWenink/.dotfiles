@@ -79,3 +79,5 @@ if [[ "$PATH" != *"/home/edwin/bin"* ]]; then
     export PATH=~/bin:$PATH #add ~/bin to $PATH, that is where the activation scripts are
 fi
 # END LAMACHINE MANAGED BLOCK - path
+
+export PATH=~/Jason/scripts/:$PATH
