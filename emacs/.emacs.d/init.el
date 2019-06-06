@@ -10,7 +10,10 @@
 (require 'use-package)
 
 ;; Default directory
-(setq default-directory "/home/edwin/")
+(if (string-equal system-type "gnu/linux")
+    (setq default-directory "/home/edwin/")
+    (setq default-directory "C:/Users/Edwin Wenink/")
+)
 
 ;; UTF-8 
 (prefer-coding-system 'utf-8)
@@ -206,11 +209,15 @@
 (use-package org
 	:ensure t
 	:init
+	  (load "~/.emacs.d/org-config/capture-templates.el")
 	  (setq org-confirm-babel-evaluate nil
 			org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/"
 			org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/"
+			org-directory "~/org/"
+			org-archive-location (concat org-directory "/archive.org")
+			org-default-notes-file (concat org-directory "/notes.org")
 			org-todo-keywords
-			'((sequence  "TODO(t)" "STARTED(s)" "DONE(d)" "[ ](T)" "[x](D)" "NEXT(n)" "|"  ))
+			'((sequence  "TODO(t)" "STARTED(s)" "[ ](T)" "NEXT(n)" "|" "DONE(d)" "[x](D)"))
 			org-todo-keyword-faces
 			'(("TODO" . org-warning)
 			  ("DONE" . "green")
@@ -220,6 +227,7 @@
 			  ("NEXT" . "#008080")
 			  ("[x]" . "green") 
 			  )
+			org-log-done 'time
 			org-fontify-whole-heading-line t
 			org-fontify-done-headline t
 			org-src-fontify-natively t
@@ -227,9 +235,16 @@
 			org-src-tab-acts-natively t
 			org-src-window-setup 'current-window
 			org-edit-src-content-indentation 0
-			org-fontify-quote-and-verse-blocks t)
+			org-fontify-quote-and-verse-blocks t
+	                org-agenda-include-diary t
+			org-hide-leading-stars t
+			org-return-follows-link t
+			)
 	  :bind
-	  (("C-x a" . org-agenda))
+	  (("C-c a" . org-agenda)
+	   ("C-c l" . org-store-link)
+	   ("C-c c" . org-capture)
+	   )
 )
 
 (setq org-modules '(org-bbdb
@@ -273,7 +288,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/org/todo.org")))
+ '(org-agenda-files
+   (quote
+    ("~/org/emacs.org" "~/org/habits.org" "~/org/todo.org")))
  '(package-selected-packages
    (quote
     (evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
