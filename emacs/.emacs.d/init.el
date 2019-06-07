@@ -82,6 +82,13 @@
 ;; Display time in modeline
 (display-time-mode 1)
 
+;; Display word count in modeline
+(use-package wc-mode
+  :ensure t
+  :config
+  (wc-mode 1)
+)
+
 ;; Ivy
 (use-package ag
   :ensure t
@@ -124,7 +131,7 @@
   (setq evil-shift-round nil)
   (setq evil-want-C-u-scroll t)
   :config
-  (evil-mode)
+  (evil-mode 1)
 
   ;; vim-like keybindings everywhere in emacs
   (use-package evil-collection
@@ -168,7 +175,7 @@
                 :map evil-visual-state-map
                 ("gr" . evil-replace-with-register)))
 
-  ;; * operator in vusual mode
+  ;; * operator in visual mode
   (use-package evil-visualstar
     :ensure t
     :bind (:map evil-visual-state-map
@@ -181,11 +188,11 @@
     :defer t)
 
   ;; visual hints while editing
-  (use-package evil-goggles
-    :ensure t
-    :config
-    (evil-goggles-use-diff-faces)
-    (evil-goggles-mode))
+  ;; (use-package evil-goggles
+  ;;   :ensure t
+  ;;   :config
+  ;;   (evil-goggles-use-diff-faces)
+  ;;   (evil-goggles-mode))
 
   ;; like vim-surround
   (use-package evil-surround
@@ -205,7 +212,7 @@
 ;; Org mode
 ;; See https://pages.sachachua.com/.emacs.d/Sacha.html#org898cd11
 ;; and https://github.com/tsacha/.emacs.d/blob/master/sacha.org#recent-files
-;; Consider using: https://github.com/edwtjo/evil-org-mode
+;; Consider using: https://github.com/Somelauw/evil-org-mode
 (use-package org
 	:ensure t
 	:init
@@ -271,12 +278,37 @@
 ;; Prepare stuff for org-export-backends
 (setq org-export-backends '(org latex icalendar html ascii))
 
+;; Evil bindings for org mode; especially needed this for agenda view
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
+) 
+
+;; Custom keychords
+;; Exit insert mode by pressing jj within given timeframe
+(use-package key-chord
+  :ensure t
+  :after evil
+  :init
+  (setq key-chord-two-keys-delay 0.5)
+  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  (key-chord-mode 1)
+  :config
+)  
 
 ;; Magit
 (use-package magit
   :ensure t
   :bind
-  (("C-x g" . magit-status)))
+  (("C-x g" . magit-status))
+)
 
 ;; Add evil bindings to magit
 (use-package evil-magit
@@ -293,7 +325,7 @@
     ("~/org/emacs.org" "~/org/habits.org" "~/org/todo.org")))
  '(package-selected-packages
    (quote
-    (evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
+    (wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
