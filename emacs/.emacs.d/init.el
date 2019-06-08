@@ -38,7 +38,6 @@
       ;;inhibit-startup-echo-area-message t
 )
 
-
 ;; Instead show custom dashboard
 (use-package dashboard
     :ensure t
@@ -88,6 +87,12 @@
   :config
   (wc-mode 1)
 )
+
+;; PACKAGE SPECIFIC SETTINGS
+;; Put some lengthy ones in specific config files later
+
+;; Gnus
+;; TODO: evil bindings in gnus
 
 ;; Ivy
 (use-package ag
@@ -221,18 +226,18 @@
 			org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/"
 			org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/"
 			org-directory "~/org/"
-			org-archive-location (concat org-directory "/archive.org")
-			org-default-notes-file (concat org-directory "/notes.org")
+			org-archive-location (concat org-directory "archive.org::datetree/* Finished Tasks") 
+			org-default-notes-file (concat org-directory "notes.org")
 			org-todo-keywords
-			'((sequence  "TODO(t)" "STARTED(s)" "[ ](T)" "NEXT(n)" "|" "DONE(d)" "[x](D)"))
+			'((sequence  "TODO(t)" "STARTED(s)" "[ ](T)" "NEXT(n)" "|" "DONE(d)" "[x](D)" "CANCELED(c)"))
 			org-todo-keyword-faces
 			'(("TODO" . org-warning)
-			  ("DONE" . "green")
-			  ("STARTED" . "orange")
-			  ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold))
-			  ("DELEGATED" . "pink")
+			  ("DONE" . "DarkGreen")
+			  ("STARTED" . "DarkOrange")
+			  ("CANCELED" . "DarkGreen")
+			  ("DELEGATED" . "BlueViolet")
 			  ("NEXT" . "#008080")
-			  ("[x]" . "green") 
+			  ("[x]" . "DarkGreen") 
 			  )
 			org-log-done 'time
 			org-fontify-whole-heading-line t
@@ -315,6 +320,59 @@
 	:ensure t
 )
 
+;; Markdown editing
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc")
+)
+
+;; Elfeed RSS
+;; see http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/
+;; for how to filter based on org headers with custom functions
+
+;; write to and load from disk for synchronization between systems
+;; call this to open elfeed from database
+(defun elfeed-load-db ()
+  (interactive)
+  (elfeed-db-load)
+  (elfeed)
+  (elfeed-search-update--force)
+)
+
+(defun elfeed-save-db ()
+  (interactive)
+  (elfeed-db-save)
+  (quit-window)
+)
+
+;; extra global binding for loading the feed from database
+(global-set-key (kbd "C-c C-f") 'elfeed-load-db)
+
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-db-directory (concat org-directory "elfeed-db"))
+  :bind (:map elfeed-search-mode-map
+	      ("wq" . elfeed-save-db);; the q mapping is taken by evil-collection
+	      ("Q" . elfeed-save-db);; the q mapping is taken by evil-collection
+	      ) 
+)
+
+;; use an org file to organise feeds
+;; See https://github.com/remyhonig/elfeed-org for tips
+;; N.B. Evil bindings are present in evil-collection!
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list (concat org-directory "elfeed.org")))
+)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -322,10 +380,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/org/emacs.org" "~/org/habits.org" "~/org/todo.org")))
+    ("~/org/schedule.org" "~/org/emacs.org" "~/org/habits.org" "~/org/todo.org")))
  '(package-selected-packages
    (quote
-    (wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
+    (elfeed-org elfeed markdown-mode wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
