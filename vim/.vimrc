@@ -13,12 +13,17 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " Multiple Plug commands can be written in a single line using | separators
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" File explorers
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tpope/vim-vinegar'
+" Git extension for NERDTree
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Fuzzy file finding
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
+Plug 'kien/ctrlp.vim'
 
 " Airline bar at bottom of vim
 "Plug 'vim-airline/vim-airline'
@@ -44,11 +49,6 @@ Plug 'vim-syntastic/syntastic'
 " Autclose bracket-like symbols
 Plug 'jiangmiao/auto-pairs'
 
-" NERDTree file explorer
-Plug 'scrooloose/nerdtree'
-
-" Git extension for NERDTree
-Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Git wrapper
 Plug 'tpope/vim-fugitive'
@@ -105,10 +105,6 @@ Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 Plug 'chriskempson/base16-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'swalladge/paper.vim'
-
-" Icons for NERDTree and vim airline (Disabld for now because it seemed to
-" introduce lag)
-" Plug 'ryanoasis/vim-devicons'
 
 " Initialize plugin system
 call plug#end()
@@ -169,7 +165,7 @@ set fileencoding=utf-8
 " REMAPS ----------------------------------------
 
 " Map <F2> to NERDTree
-:nnoremap <F2> :NERDTreeToggle<CR>
+" :nnoremap <F2> :NERDTreeToggle<CR>
 
 " Map <F3> to open writer mode
 :nnoremap <F3> :Goyo<CR>
@@ -232,8 +228,8 @@ nnoremap <leader>h :g/^#/#<CR>
 " set laststatus=2 
 
 "If no file is specified, open NERDTree automatically 
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Syntastic settings
 " set statusline+=%#warningmsg#
@@ -251,6 +247,16 @@ set shortmess+=c "Shut off completion messages
 set belloff+=ctrlg "Disable vim beeping during completion
 let g:mucomplete#enable_auto_at_startup = 1
 
+" Make Ctrlp use ripgrep
+if executable('rg')
+    set grepprg=rg\ --color=never
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+    let g:ctrlp_user_caching = 0
+endif
+
+" What to ignore while searching files
+set wildignore+=*/.git/*,*/tmp/*,*.swp
+    
 " VIM / TMUX INTEGRATION -------------------------------
 
 " Hide tmux status bar upon entering vim, and re-enable when leaving vim
