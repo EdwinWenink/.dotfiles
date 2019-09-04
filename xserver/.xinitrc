@@ -25,6 +25,8 @@ fi
 
 # start some nice programs
 
+/usr/local/bin/dwm_status.sh &
+
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
   [ -x "$f" ] && . "$f"
@@ -32,15 +34,15 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-if [ "$(tty)" = "/dev/tty1" ]; then
+if [ "$(tty)" = "/dev/tty6" ]; then
 	startx &
 	exec urxvt -e tmux
 fi
 
-# Code for booting up i3 instead on tty2
 if [ "$(tty)" = "/dev/tty2" ]; then
 	startx &
 	xrandr --output VGA-1 --mode 1920x1080 &
 	~/.fehbg $
-	exec i3
+    /usr/local/bin/dwm_status.sh &
+	exec dwm 
 fi

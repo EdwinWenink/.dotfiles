@@ -27,6 +27,15 @@ export LESS_TERMCAP_us=$(printf '\e[04;34m')
 # Add custom enviroment
 PATH=$PATH:~/Scripts
 
+# Setting variables
+export PATH=$PATH:/opt/anaconda/bin
+export PATH=$PATH:$HOME/.node_modules_global/bin
+export PATH=$PATH:/home/edwin/Documents/AI/clean3/bin
+export NOTES_DIR=/home/edwin/Documents/Notes
+export WEBSITE=/home/edwin/Website/personal_website
+
+
+
 # PS1 Setup
 PROMPT_COMMAND=__prompt_command
 
@@ -56,10 +65,66 @@ __prompt_command() {
     fi
 }
 
+# Source alias not found hook
+#source /usr/share/doc/pkgfile/command-not-found.bash
+
+# Setting aliases
+
+alias lsd=changeDirectory
+alias bashedit='vim /etc/bash.bashrc'
+alias ..='cd ..'
+alias bye=customShutdown
+alias ai='cd /home/edwin/Documents/AI/Y3'
+alias reopen=reopen.sh
+alias oad='openAndDisown'
+alias steamFolder='cd /home/edwin/.local/share/Steam/steamapps/common'
+alias agenda='gcalcli agenda'
+alias readmail='neomutt'
+alias play='playerctl play'
+alias pause='playerctl pause'
+alias stop='playerctl stop'
+alias next='playerctl next'
+alias previous='playerctl previous'
+alias bar='bash ~/.config/polybar/launch.sh & disown'
+alias mutt='neomutt'
+alias web='ranger --cmd="cd $WEBSITE"'
+alias todo='bash /usr/local/bin/todo.sh'
+alias did='/bin/bash done.sh'
+
 # Nicer command outputs
 alias ls='ls --color=auto'
 alias els='els --els-icons=fontawesome' # did not get this to work yet with urxvt
 alias grep='grep --color=auto'
+alias tg='telegram-cli -N'
+
+
+# Corresponding functions
+
+command_not_found_handle() {
+  echo 8===3 ~
+  
+  return 127
+}
+
+function customShutdown {
+  clear
+  /bin/bash randomcowsay.sh
+  sleep 5s
+  shutdown 0
+}
+
+function openAndDisown {
+	$@ & disown
+}
+
+# automatically prepend cd command to directory names
+# shopt -s autocd
+
+# Welcome message
+#cat /usr/bin/ascii/ju87.txt
+echo Date: $(date +%F)
+echo Time: $(date +%T)
+echo $(acpi)
 
 # Automatically do an ls after each cd
 cd() {

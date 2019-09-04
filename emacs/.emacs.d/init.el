@@ -380,7 +380,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/org/schedule.org" "~/org/emacs.org" "~/org/habits.org" "~/org/todo.org")))
+    ("~/org/habits.org" "~/org/schedule.org" "~/org/emacs.org" "~/org/todo.org")))
  '(package-selected-packages
    (quote
     (elfeed-org elfeed markdown-mode wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
