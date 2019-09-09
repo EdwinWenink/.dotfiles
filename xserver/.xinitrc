@@ -39,7 +39,7 @@ if [ "$(tty)" = "/dev/tty6" ]; then
 	exec urxvt -e tmux
 fi
 
-if [ "$(tty)" = "/dev/tty2" ]; then
+if [ "$(tty)" = "/dev/tty1" ]; then
 	startx &
 	xrandr --output VGA-1 --mode 1920x1080 &
 	~/.fehbg $

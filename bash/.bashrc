@@ -88,7 +88,7 @@ alias previous='playerctl previous'
 alias bar='bash ~/.config/polybar/launch.sh & disown'
 alias mutt='neomutt'
 alias web='ranger --cmd="cd $WEBSITE"'
-alias todo='bash /usr/local/bin/todo.sh'
+alias task='bash /usr/local/bin/do.sh'
 alias did='/bin/bash done.sh'
 
 # Nicer command outputs

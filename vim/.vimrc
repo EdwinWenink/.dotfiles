@@ -78,6 +78,9 @@ Plug 'majutsushi/tagbar'
 " Full-featured document outliner, e.g. voor markdown or latex (:Voom latex)
 Plug 'vim-scripts/VOoM'
 
+" Support for todo.txt
+Plug 'freitass/todo.txt-vim'
+
 " ----------------- WRITING ---------------------------
 
 " Integration of vim with pandoc
@@ -123,6 +126,13 @@ set nospell
 
 " Enable syntax highlighting
 syntax on 
+
+" Filetype detection
+if has("autocmd")
+    filetype on
+    filetype indent on
+    filetype plugin on
+endif
 
 " Change default 8 column tab to 4 column tab and expand to spaces
 :set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
@@ -246,6 +256,7 @@ set completeopt+=noselect
 set shortmess+=c "Shut off completion messages
 set belloff+=ctrlg "Disable vim beeping during completion
 let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#completion_delay = 1
 
 " Make Ctrlp use ripgrep
 if executable('rg')
@@ -340,8 +351,7 @@ let g:livepreview_previewer = 'zathura'
 " COMPILING STUFF
 
 " Select Latex Compile Defaults
-filetype plugin indent off
-filetype indent on
+" filetype plugin indent off
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_DefaultTargetFormat='pdf'
