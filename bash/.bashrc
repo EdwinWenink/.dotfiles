@@ -65,6 +65,12 @@ __prompt_command() {
     fi
 }
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
+
 # Source alias not found hook
 #source /usr/share/doc/pkgfile/command-not-found.bash
 
@@ -74,7 +80,7 @@ alias lsd=changeDirectory
 alias bashedit='vim /etc/bash.bashrc'
 alias ..='cd ..'
 alias bye=customShutdown
-alias ai='cd /home/edwin/Documents/AI/Y3'
+alias ai='cd /home/edwin/Documents/AI/'
 alias reopen=reopen.sh
 alias oad='openAndDisown'
 alias steamFolder='cd /home/edwin/.local/share/Steam/steamapps/common'

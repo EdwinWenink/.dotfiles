@@ -81,6 +81,10 @@ Plug 'vim-scripts/VOoM'
 " Support for todo.txt
 Plug 'freitass/todo.txt-vim'
 
+" Align e.g. on comma's with ' Tabularize /, '
+Plug 'godlygeek/tabular'
+
+
 " ----------------- WRITING ---------------------------
 
 " Integration of vim with pandoc
@@ -95,7 +99,6 @@ Plug 'junegunn/limelight.vim'
 " Markdown / Writing
 Plug 'tpope/vim-markdown'
 Plug 'jtratner/vim-flavored-markdown'
-"Plug 'godlygeek/tabular'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
@@ -166,7 +169,7 @@ set guioptions-=r  "scrollbar
 let base16colorspace=256
 set t_Co=256
 " colorscheme base16-google-light
-colorscheme dracula
+" colorscheme dracula
 
 " Set encoding
 set encoding=utf-8
