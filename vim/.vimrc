@@ -32,6 +32,9 @@ Plug 'kien/ctrlp.vim'
 " Default settings everyone can agree on
 " Plug 'tpope/vim-sensible'
 
+" Git wrapper
+Plug 'tpope/vim-fugitive'
+
 " ------------------ CODING/IDE SIMULATION ---------------------------
 
 " Surround with brackets (yss new surroundings, cst" change, ds" delete )
@@ -48,10 +51,6 @@ Plug 'vim-syntastic/syntastic'
 
 " Autclose bracket-like symbols
 Plug 'jiangmiao/auto-pairs'
-
-
-" Git wrapper
-Plug 'tpope/vim-fugitive'
 
 " Run commands without vim in tmux pane with VimuxRunCommand (you are supposed
 " to run vim within tmux then)
@@ -87,18 +86,17 @@ Plug 'godlygeek/tabular'
 
 " ----------------- WRITING ---------------------------
 
-" Integration of vim with pandoc
+" Integration of vim with pandoc (also handles markdown formats)
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'yashsriv/vim-instant-pandoc' " Currently does not work correctly 
 
 " Goyo and limelight for focused writing
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
 " Markdown / Writing
-Plug 'tpope/vim-markdown'
-Plug 'jtratner/vim-flavored-markdown'
+" Plug 'tpope/vim-markdown'
+" Plug 'jtratner/vim-flavored-markdown'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
@@ -116,10 +114,8 @@ Plug 'swalladge/paper.vim'
 call plug#end()
 
 
-" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-
 " GENERAL SETTINGS -----------------------------------
+"
 
 " Enable yanking to global clipboard for cross-terminal pasting
 set clipboard=unnamedplus
@@ -145,7 +141,7 @@ set foldlevel=1
 
 " Set updatetime of .swp file (changed for faster LaTeX preview).
 " Default=4000
-set updatetime=1000
+set updatetime=1000  " Perhaps do a filetype check for .tex or .latex and then only do this? Can this cause lag?
 
 " Settings for vim search
 set incsearch
@@ -165,11 +161,9 @@ set guioptions-=m  "menu bar
 set guioptions-=T  "toolbar
 set guioptions-=r  "scrollbar
 
-" Enable a colorscheme
+" Enable base16 colorschemes; take over colorscheme from shell
 let base16colorspace=256
 set t_Co=256
-" colorscheme base16-google-light
-" colorscheme dracula
 
 " Set encoding
 set encoding=utf-8
@@ -340,13 +334,10 @@ augroup pencil
 	autocmd Filetype text call pencil#init()
 augroup END
 
-" Markdown preview with pandoc (vim-instant-pandoc plugin)
-let g:instant_pandoc_port = 8080
-"let g:instant_pandoc_slow = 1
-let g:instant_pandoc_autostart = 0
-let g:instant_pandoc_open_to_the_world = 0
-let g:insant_pandoc_allow_unsafe_content = 0
-let g:instant_pandoc_allow_external_content = 1
+" Vim-pandoc and vim-pandoc-syntax (E.g. :Pandoc! pdf)
+" Disable folding for now because level indicators were highlighted ugly
+" Problem persists for headers and lists... background is highlighted
+let g:pandoc#modules#disabled = ["folding"]
 
 " Set default pdf reader for LLPStartPreview (Latex Live Preview)
 let g:livepreview_previewer = 'zathura'
