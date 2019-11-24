@@ -32,6 +32,9 @@ Plug 'kien/ctrlp.vim'
 " Default settings everyone can agree on
 " Plug 'tpope/vim-sensible'
 
+" Handy mappings
+Plug 'tpope/vim-unimpaired'
+
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 
@@ -89,13 +92,13 @@ Plug 'godlygeek/tabular'
 " Integration of vim with pandoc (also handles markdown formats)
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'masukomi/vim-markdown-folding' "Because I disabled folding in vim-pandoc for now; only works for markdown extension currently.
 
 " Goyo and limelight for focused writing
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
 " Markdown / Writing
-" Plug 'tpope/vim-markdown'
 " Plug 'jtratner/vim-flavored-markdown'
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
@@ -217,14 +220,25 @@ nnoremap <Right> :vertical-resize -2<CR>
 " Compile java files from within vim
 :command Javac !javac $(find . -name "*.java")
 
+" NOTETAKING SYTEM ---------------------------------
+ 
+" Go to index of notes
+nnoremap <leader>ww :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
+
 " 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
-command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
+" command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
+ 
+" My own version, only searches markdown as well using ripgrep
+" Thus depends on grepprg being set to rg
+command! -nargs=1 Ngrep grep "<args>" -g '*.md' $NOTES_DIR
 nnoremap <leader>n :Ngrep 
 " Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
 " The \c escape makes the search case insensitive
 
 " Open local list in a right vertical split (good for Ngrep results)
-command! Vlist botright vertical lopen | vertical resize 40
+" command! Vlist botright vertical lopen | vertical resize 40
+command! Vlist botright vertical copen | vertical resize 40
+nnoremap <leader>v : Vlist<CR>
 
 " Find and list all Markdown headers
 nnoremap <leader>h :g/^#/#<CR>
@@ -244,7 +258,7 @@ nnoremap <leader>h :g/^#/#<CR>
 " set statusline+=%*
 let g:syntastic_always_populate_loc_list = 0 "Enabling this breaks my note search function which requires access to the locallist
 let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
 " MUComplete settings
@@ -257,7 +271,7 @@ let g:mucomplete#completion_delay = 1
 
 " Make Ctrlp use ripgrep
 if executable('rg')
-    set grepprg=rg\ --color=never
+    set grepprg=rg\ --color=never\ --vimgrep
     let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
     let g:ctrlp_user_caching = 0
 endif
@@ -337,6 +351,8 @@ augroup END
 " Vim-pandoc and vim-pandoc-syntax (E.g. :Pandoc! pdf)
 " Disable folding for now because level indicators were highlighted ugly
 " Problem persists for headers and lists... background is highlighted
+" Think this might be a problem with my xresources (problem persists in urxvt
+" and e.g. terminator)
 let g:pandoc#modules#disabled = ["folding"]
 
 " Set default pdf reader for LLPStartPreview (Latex Live Preview)
@@ -346,7 +362,6 @@ let g:livepreview_previewer = 'zathura'
 
 " Select Latex Compile Defaults
 " filetype plugin indent off
-set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_MultipleCompileFormats='pdf'

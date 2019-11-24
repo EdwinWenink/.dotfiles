@@ -96,6 +96,7 @@ alias mutt='neomutt'
 alias web='ranger --cmd="cd $WEBSITE"'
 alias task='bash /usr/local/bin/do.sh'
 alias did='/bin/bash done.sh'
+alias notes='vim ~/Documents/Notes/index.md'
 
 # Nicer command outputs
 alias ls='ls --color=auto'
