@@ -14,23 +14,17 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " File explorers
-" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-vinegar'
-" Git extension for NERDTree
-Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Fuzzy file finding
-" Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
 Plug 'kien/ctrlp.vim'
 
 " Airline bar at bottom of vim
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Default settings everyone can agree on
-" Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sensible'
 
 " Handy mappings
 Plug 'tpope/vim-unimpaired'
@@ -62,17 +56,8 @@ Plug 'benmills/vimux'
 " Smooth navigation between vim and tmux panels
 Plug 'christoomey/vim-tmux-navigator'
 
-" Add shortcuts for efficiently commenting out lines in visual mode (cc to comment out selection, c<space> to toggle comment of line)
-"Plug 'scrooloose/nerdcommenter'
-
-" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-"Plug 'fatih/vim-go', { 'tag': '*' }
-"Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-
 " Keeps track of git changes
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
 " Display tags of current file in a sidebar / Class outline
 Plug 'majutsushi/tagbar'
@@ -81,7 +66,7 @@ Plug 'majutsushi/tagbar'
 Plug 'vim-scripts/VOoM'
 
 " Support for todo.txt
-Plug 'freitass/todo.txt-vim'
+" Plug 'freitass/todo.txt-vim'
 
 " Align e.g. on comma's with ' Tabularize /, '
 Plug 'godlygeek/tabular'
@@ -153,8 +138,9 @@ set hlsearch
 " Load relevant plugin file
 filetype plugin on
 
-" Automatically re-read files files if unmodified in vim
+" Automatically re-read files if unmodified in vim
 set autoread
+
 " Enable digraph mode for entering special characters. Ä is produced by typing
 " A, then backspace, then ':'
 " set digraph
@@ -163,6 +149,21 @@ set autoread
 set guioptions-=m  "menu bar
 set guioptions-=T  "toolbar
 set guioptions-=r  "scrollbar
+
+" Settings for gVim on Windows
+if has ('gui_running')
+	if has ('gui_win32')
+		"set guifont=Courier_New:h10
+		set guifont=PragmataPro_Mono_Liga:h11
+		" Prevent annoying jumping after resizing
+		set guioptions-=r
+		set guioptions-=L
+		" Enable yanking to global clipboard for cross-terminal pasting
+		" Windows requires unnamed instead of unnamedplus
+		set clipboard=unnamed
+		set shell=cmd.exe
+	endif
+endif
 
 " Enable base16 colorschemes; take over colorscheme from shell
 let base16colorspace=256
@@ -173,9 +174,6 @@ set encoding=utf-8
 set fileencoding=utf-8
 
 " REMAPS ----------------------------------------
-
-" Map <F2> to NERDTree
-" :nnoremap <F2> :NERDTreeToggle<CR>
 
 " Map <F3> to open writer mode
 :nnoremap <F3> :Goyo<CR>
@@ -202,13 +200,6 @@ set fileencoding=utf-8
 " Use ESC to remove the highlighting from the last search
 " :nnoremap <silent> <Esc> :nohlsearch<CR><CR>
 
-" Navigate between splits
-" Currently vim-tmux-navigation already takes care of this
-"nnoremap <C-J> <C-W><C-J>
-"nnoremap <C-K> <C-W><C-J>
-"nnoremap <C-L> <C-W><C-L>
-"nnoremap <C-H> <C-W><C-H>
-
 " Disable arrow movement, resize splits instead
 nnoremap <Up> :resize +2<CR>
 nnoremap <Down> :resize -2<CR>
@@ -222,41 +213,73 @@ nnoremap <Right> :vertical-resize -2<CR>
 
 " NOTETAKING SYTEM ---------------------------------
  
-" Go to index of notes
+" Go to index of notes and set working directory to my notes
 nnoremap <leader>ww :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
 
 " 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
-" command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
- 
-" My own version, only searches markdown as well using ripgrep
-" Thus depends on grepprg being set to rg
-command! -nargs=1 Ngrep grep "<args>" -g '*.md' $NOTES_DIR
-nnoremap <leader>n :Ngrep 
 " Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
 " The \c escape makes the search case insensitive
+" command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
 
-" Open local list in a right vertical split (good for Ngrep results)
-" command! Vlist botright vertical lopen | vertical resize 40
+" 'Notes Grep' with ripgrep (see grepprg)
+" -i case insensitive
+" -g glob pattern
+" ! to not immediately open first search result
+command! -nargs=1 Ngrep grep! "<args>" -i -g '*.md' $NOTES_DIR
+nnoremap <leader>n :Ngrep 
+
+" Open quickfix list in a right vertical split (good for Ngrep results)
 command! Vlist botright vertical copen | vertical resize 40
 nnoremap <leader>v : Vlist<CR>
+
+" Variant for searching a tag starting with @
+" Prepopulate search with <cword> i.e. tag under cursor, but allow replacement
+" TODO are optimalizations possible, e.g. stopping search early?
+command! -nargs=1 Tgrep grep! "@<args>" -i -g "*.md" $NOTES_DIR
+"nnoremap <leader>t :Tgrep <cword>
+
+" Helper function for calling Tgrep
+" If empty string is provided (default), then the word under the cursor 
+" is used as the search pattern
+:function TagSearch(word)
+:	if a:word == ""
+:		execute "Tgrep ". "<cword>"
+:	else 	
+:		execute "Tgrep ". a:word
+:	endif
+:endfunction
+
+nnoremap <leader>t :call TagSearch("")<left><left>
+
+" Open most recently edited file (selects index 1 from :oldfiles)
+nnoremap <leader>r `1
+
+" Quickly create a new entry into the "Zettelkasten" 
+nnoremap <leader>z :e $NOTES_DIR/Zettelkasten/
 
 " Find and list all Markdown headers
 nnoremap <leader>h :g/^#/#<CR>
 
+" Do a Vimgrep on the current word
+" https://vim.fandom.com/wiki/Find_in_files_within_Vim
+" map <leader>c :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+
 " GENERAL PLUGIN SETTINGS -----------------------------
 
 " Airline settings
-" set laststatus=2 
-
-"If no file is specified, open NERDTree automatically 
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Always display statusline
+set laststatus=2 
+" Avoid showing mode (e.g. -- INSERT -- ) below airline
+set noshowmode
+" Theme examples: https://github.com/vim-airline/vim-airline/wiki/Screenshots
+let g:airline_theme='base16_3024'
+"colorscheme base16-3024
 
 " Syntastic settings
 " set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
-let g:syntastic_always_populate_loc_list = 0 "Enabling this breaks my note search function which requires access to the locallist
+let g:syntastic_always_populate_loc_list = 1 
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
@@ -269,14 +292,15 @@ set belloff+=ctrlg "Disable vim beeping during completion
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay = 1
 
-" Make Ctrlp use ripgrep
+" Make CtrlP and grep use ripgrep
 if executable('rg')
     set grepprg=rg\ --color=never\ --vimgrep
+    set grepformat=%f:%l:%c:%m
     let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
     let g:ctrlp_user_caching = 0
 endif
 
-" What to ignore while searching files
+" What to ignore while searching files, speeds up CtrlP
 set wildignore+=*/.git/*,*/tmp/*,*.swp
     
 " VIM / TMUX INTEGRATION -------------------------------
