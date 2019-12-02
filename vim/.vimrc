@@ -221,21 +221,23 @@ nnoremap <leader>ww :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
 " The \c escape makes the search case insensitive
 " command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
 
+" TODO exclude index.md from all search functions
+
 " 'Notes Grep' with ripgrep (see grepprg)
 " -i case insensitive
 " -g glob pattern
 " ! to not immediately open first search result
-command! -nargs=1 Ngrep grep! "<args>" -i -g '*.md' $NOTES_DIR
+command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
 nnoremap <leader>n :Ngrep 
 
 " Open quickfix list in a right vertical split (good for Ngrep results)
-command! Vlist botright vertical copen | vertical resize 40
+command! Vlist botright vertical copen | vertical resize 50
 nnoremap <leader>v : Vlist<CR>
 
 " Variant for searching a tag starting with @
 " Prepopulate search with <cword> i.e. tag under cursor, but allow replacement
 " TODO are optimalizations possible, e.g. stopping search early?
-command! -nargs=1 Tgrep grep! "@<args>" -i -g "*.md" $NOTES_DIR
+command! -nargs=1 Tgrep :silent grep! "@<args>" -i -g "*.md" $NOTES_DIR | execute ':redraw!'
 "nnoremap <leader>t :Tgrep <cword>
 
 " Helper function for calling Tgrep
