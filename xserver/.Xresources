@@ -32,11 +32,12 @@ URxvt*underlineColor: yellow
 URxvt*cursorBlink: true
 URxvt*cursorColor: magenta
 URxvt*cursorUnderline: false
+URxvt*highlightColor: magenta
 URxvt*depth: 32
 !URxvt*font: xft:FontAwesome:pixelsize=15
 !URxvt*font: xft:Inconsolata:pixelsize=15
 !URxvt*font: xft:PragmataPro Mono Liga:pixelsize=14
-URxvt*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=14
+URxvt*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
 
 !Fix home and end button
 !URxvt.keysym.Home: \033[1~

@@ -34,8 +34,6 @@ export PATH=$PATH:/home/edwin/Documents/AI/clean3/bin
 export NOTES_DIR=/home/edwin/Documents/Notes
 export WEBSITE=/home/edwin/Website/personal_website
 
-
-
 # PS1 Setup
 PROMPT_COMMAND=__prompt_command
 
@@ -70,6 +68,11 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 [ -n "$PS1" ] && \
     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
         eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+# Choose Base16 theme
+#base16_pop
+base16_default-light
+#random-color-scheme.sh
 
 # Source alias not found hook
 #source /usr/share/doc/pkgfile/command-not-found.bash
@@ -108,7 +111,7 @@ alias tg='telegram-cli -N'
 # Corresponding functions
 
 command_not_found_handle() {
-  echo 8===3 ~
+    echo ":-(" 
   
   return 127
 }

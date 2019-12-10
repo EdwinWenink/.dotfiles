@@ -43,9 +43,6 @@ Plug 'tpope/vim-repeat'
 " Autocompletion that only uses native vim autocomplete features
 Plug 'lifepillar/vim-mucomplete'
 
-" Syntax checking for programming languages
-Plug 'vim-syntastic/syntastic'
-
 " Autclose bracket-like symbols
 Plug 'jiangmiao/auto-pairs'
 
@@ -75,10 +72,9 @@ Plug 'godlygeek/tabular'
 " ----------------- WRITING ---------------------------
 
 " Integration of vim with pandoc (also handles markdown formats)
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'masukomi/vim-markdown-folding' "Because I disabled folding in vim-pandoc for now; only works for markdown extension currently.
-
+Plug 'vim-pandoc/vim-pandoc' 
+Plug 'vim-pandoc/vim-pandoc-syntax' 
+Plug 'masukomi/vim-markdown-folding' "Because I disabled folding in vim-pandoc for now; only works for markdown extension currently. 
 " Goyo and limelight for focused writing
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -134,9 +130,6 @@ set updatetime=1000  " Perhaps do a filetype check for .tex or .latex and then o
 " Settings for vim search
 set incsearch
 set hlsearch
-
-" Load relevant plugin file
-filetype plugin on
 
 " Automatically re-read files if unmodified in vim
 set autoread
@@ -194,11 +187,12 @@ set fileencoding=utf-8
 :inoremap jj <Esc>
 
 " Use space to quickly open and close folds
-:nnoremap <Space> za
-:vnoremap <Space> za
+" :nnoremap <Space> za
+" :vnoremap <Space> za
 
-" Use ESC to remove the highlighting from the last search
-" :nnoremap <silent> <Esc> :nohlsearch<CR><CR>
+" Use SPACE to remove the highlighting from the last search
+:nnoremap <silent> <Space> :nohlsearch<CR><CR>
+:vnoremap <silent> <Space> :nohlsearch<CR><CR>
 
 " Disable arrow movement, resize splits instead
 nnoremap <Up> :resize +2<CR>
@@ -212,9 +206,18 @@ nnoremap <Right> :vertical-resize -2<CR>
 :command Javac !javac $(find . -name "*.java")
 
 " NOTETAKING SYTEM ---------------------------------
+"
+" Quickly create a new entry into the "Zettelkasten" 
+nnoremap <leader>z :e $NOTES_DIR/Zettelkasten/
+
+" Find and list all Markdown headers
+nnoremap <leader>h :g/^#/#<CR>
  
+" Open most recently edited file (selects index 1 from :oldfiles)
+nnoremap <leader>r `1
+
 " Go to index of notes and set working directory to my notes
-nnoremap <leader>ww :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
+nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
 
 " 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
 " Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
@@ -228,7 +231,7 @@ nnoremap <leader>ww :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
 " -g glob pattern
 " ! to not immediately open first search result
 command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
-nnoremap <leader>n :Ngrep 
+nnoremap <leader>nn :Ngrep 
 
 " Open quickfix list in a right vertical split (good for Ngrep results)
 command! Vlist botright vertical copen | vertical resize 50
@@ -251,20 +254,50 @@ command! -nargs=1 Tgrep :silent grep! "@<args>" -i -g "*.md" $NOTES_DIR | execut
 :	endif
 :endfunction
 
-nnoremap <leader>t :call TagSearch("")<left><left>
-
-" Open most recently edited file (selects index 1 from :oldfiles)
-nnoremap <leader>r `1
-
-" Quickly create a new entry into the "Zettelkasten" 
-nnoremap <leader>z :e $NOTES_DIR/Zettelkasten/
-
-" Find and list all Markdown headers
-nnoremap <leader>h :g/^#/#<CR>
+nnoremap <leader>nt :call TagSearch("")<left><left>
 
 " Do a Vimgrep on the current word
 " https://vim.fandom.com/wiki/Find_in_files_within_Vim
-" map <leader>c :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+map <leader>c :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+
+" From https://vim.fandom.com/wiki/Append_output_of_an_external_command
+:command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
+
+"TODO I do not know how to avoid these wrapper functions
+" Searches JSON index using jq
+command! -nargs=1 SearchJSONTags R jq -r ".<args>" "C:\Users\Edwin Wenink\Documents\Notes\tags.json"<CR>
+" Wrapper function for making arguments lowercase
+:function! IndexTagSearch(tag)
+: let l:lower_tag=tolower(a:tag)
+: execute "SearchJSONTags " . l:lower_tag
+: cd ~/Documents/Notes
+:endfunction
+nnoremap <leader>nT :call IndexTagSearch("")<left><left>
+
+"TODO e.g. here I would need to find a way to expand the current filename
+"TODO replace all references to ~/Documents/Notes with a variable
+"expand("%:t") into the command itself...
+" Find backlinks to current document
+" TODO DOESNT WORK DONT KNOW WHY"
+command! -nargs=1 SearchJSONBacklinks R jq -r "<args>" "C:\Users\Edwin Wenink\Documents\Notes\backlinks.json"<CR>
+:function! SearchBacklinkJSON()
+: execute "SearchJSONBacklinks " . expand("%:t")
+: cd ~/Documents/Notes
+:endfunction
+
+" Native Vim alternative: search backlinks to current file in backlinks.json
+" Only match key values (end with ":")
+" Move cursor to first link after finding match
+:function! SearchBacklink()
+: let current_file=expand("%:t")
+: cd ~/Documents/Notes
+" Can I combine opening that file with the search?
+" Because then the file wouldnt open if the search fails
+: e backlinks.json
+: execute "normal /" . current_file . ".*:/+1\<CR>w"
+:endfunction
+
+nnoremap <leader>nb : call SearchBacklink()<CR>
 
 " GENERAL PLUGIN SETTINGS -----------------------------
 
@@ -274,7 +307,8 @@ set laststatus=2
 " Avoid showing mode (e.g. -- INSERT -- ) below airline
 set noshowmode
 " Theme examples: https://github.com/vim-airline/vim-airline/wiki/Screenshots
-let g:airline_theme='base16_3024'
+"let g:airline_theme='base16_3024'
+let g:airline_theme='jellybeans'
 "colorscheme base16-3024
 
 " Syntastic settings
@@ -308,6 +342,7 @@ set wildignore+=*/.git/*,*/tmp/*,*.swp
 " VIM / TMUX INTEGRATION -------------------------------
 
 " Hide tmux status bar upon entering vim, and re-enable when leaving vim
+" TODO currently seems to give an error when there is no tmux session?
 autocmd VimEnter,VimLeave * silent !tmux set status
 
 " Prompt for a command to run in tmux from within vim
@@ -370,16 +405,25 @@ let g:pencil_terminal_italics = 1
 
 augroup pencil
 	autocmd!
-	autocmd Filetype markdown,mkd call pencil#init()
+	autocmd Filetype pandoc,markdown,mkd call pencil#init()
 	autocmd Filetype text call pencil#init()
 augroup END
 
 " Vim-pandoc and vim-pandoc-syntax (E.g. :Pandoc! pdf)
 " Disable folding for now because level indicators were highlighted ugly
-" Problem persists for headers and lists... background is highlighted
-" Think this might be a problem with my xresources (problem persists in urxvt
-" and e.g. terminator)
+" FOUND THE ISSUE!
+" SEE :highlight
+"set conceallevel=0 "This disables the special symbols with ugly background.
 let g:pandoc#modules#disabled = ["folding"]
+
+" Use compound pandoc.markdown for best of both worlds
+augroup pandoc
+    autocmd!
+    autocmd Filetype pandoc,markdown set filetype=pandoc.markdown
+    autocmd Filetype pandoc,markdown set conceallevel=1
+    autocmd Filetype pandoc,markdown highlight Conceal ctermbg=NONE
+    autocmd Filetype pandoc,markdown highlight Folded ctermbg=NONE
+augroup END
 
 " Set default pdf reader for LLPStartPreview (Latex Live Preview)
 let g:livepreview_previewer = 'zathura'
