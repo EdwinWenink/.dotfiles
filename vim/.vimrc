@@ -11,7 +11,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
 " Multiple Plug commands can be written in a single line using | separators
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' 
+Plug 'honza/vim-snippets'
 
 " File explorers
 Plug 'tpope/vim-vinegar'
@@ -33,6 +34,11 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 
 " ------------------ CODING/IDE SIMULATION ---------------------------
+
+" Autocompletion
+"Plug 'Shougo/deoplete.nvim'
+"Plug 'roxma/nvim-yarp'
+"Plug 'roxma/vim-hug-neovim-rpc'
 
 " Surround with brackets (yss new surroundings, cst" change, ds" delete )
 Plug 'tpope/vim-surround'
@@ -85,7 +91,14 @@ Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
 " Latex
-Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+" Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
+Plug 'lervag/vimtex'
+
+" Autocorrect common typos
+" Custom list of iabbrev (1 sec delay on startup)
+Plug 'panozzaj/vim-autocorrect' 
+" This plugin just accepts the default Vim suggestion (dangerous?)
+Plug 'sedm0784/vim-you-autocorrect'
 
 " ----------------- THEME ----------------------
 
@@ -311,22 +324,65 @@ set noshowmode
 let g:airline_theme='jellybeans'
 "colorscheme base16-3024
 
-" Syntastic settings
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1 
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 
-" MUComplete settings
+" Auto pairs
+" Avoid conflict with Mucomplete
+let g:AutoPairsMapSpace = 0
+imap <silent> <expr> <space> pumvisible()
+    \ ? "<space>"
+    \ : "<c-r>=AutoPairsSpace()<cr>"
+
+let g:AutoPairsMapCR = 0
+imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
+imap <cr> <Plug>MyCR
+
+" Issue: C-J is defined in imap.vim, but I want to use it with ultisnips and
+" multicomplete. Set it to something else
+imap <C-space> <Plug>IMAP_JumpForward
+
+" Ultisnips
+" From help mucomplete-compatibility
+
+let g:UltiSnipsExpandTrigger = "<c-l>"        " Do not use <tab>
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"  " Do not use <c-j>
+
+"let g:ulti_expand_or_jump_res = 0
+
+"fun! TryUltiSnips()
+  "if !pumvisible() " With the pop-up menu open, let Tab move down
+    "call UltiSnips#ExpandSnippetOrJump()
+  "endif
+  "return ''
+"endf
+
+"fun! TryMUcomplete()
+  "return g:ulti_expand_or_jump_res ? "" : "\<plug>(MUcompleteFwd)"
+"endf
+"
+"inoremap <plug>(TryUlti) <c-r>=TryUltiSnips()<cr>
+"imap <expr> <silent> <plug>(TryMU) TryMUcomplete()
+"imap <expr> <silent> <tab> "\<plug>(TryUlti)\<plug>(TryMU)"
+
+" Expand snippet on selecting mucomplete entry
+inoremap <silent> <expr> <plug>MyCR
+    \ mucomplete#ultisnips#expand_snippet("\<cr>")
+imap <cr> <plug>MyCR
+
+ "MUComplete settings
 set completeopt+=menuone
 set completeopt+=noselect
 set shortmess+=c "Shut off completion messages
 set belloff+=ctrlg "Disable vim beeping during completion
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay = 1
+
+let g:mucomplete#chains = {
+    \ 'default' : ['path', 'omni',  'ulti', 'keyn', 'dict', 'uspl'],
+    \ 'vim'     : ['path', 'cmd', 'ulti', 'keyn']
+    \ }
+
 
 " Make CtrlP and grep use ripgrep
 if executable('rg')
@@ -423,12 +479,27 @@ augroup pandoc
     autocmd Filetype pandoc,markdown set conceallevel=1
     autocmd Filetype pandoc,markdown highlight Conceal ctermbg=NONE
     autocmd Filetype pandoc,markdown highlight Folded ctermbg=NONE
+    "autocmd Filetype pandoc,markdown call AutoCorrect()
+    autocmd Filetype pandoc,markdown EnableAutocorrect
 augroup END
 
 " Set default pdf reader for LLPStartPreview (Latex Live Preview)
 let g:livepreview_previewer = 'zathura'
 
+" Define thesaurus files (insert mode <C-x><C-t>)
+set thesaurus+=~/.vim/mthesaur.txt
+
+" Custom spelling replacements (put in another file later)
+iabbrev informatoin information
+
+
 " COMPILING STUFF
+
+"Vimtex
+"call deoplete#custom#var('omni', 'input_patterns', {
+      "\ 'tex': g:vimtex#re#deoplete
+      "\})
+let g:vimtex_view_method = 'zathura'
 
 " Select Latex Compile Defaults
 " filetype plugin indent off
