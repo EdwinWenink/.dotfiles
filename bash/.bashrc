@@ -71,7 +71,8 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 
 # Choose Base16 theme
 #base16_pop
-base16_default-light
+#base16_default-light
+base16_papercolor-dark
 #random-color-scheme.sh
 
 # Source alias not found hook

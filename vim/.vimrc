@@ -33,6 +33,9 @@ Plug 'tpope/vim-unimpaired'
 " Git wrapper
 Plug 'tpope/vim-fugitive'
 
+" More useful hlsearch
+Plug 'romainl/vim-cool'
+
 " ------------------ CODING/IDE SIMULATION ---------------------------
 
 " Autocompletion
@@ -75,12 +78,12 @@ Plug 'vim-scripts/VOoM'
 Plug 'godlygeek/tabular'
 
 
-" ----------------- WRITING ---------------------------
+" ----------------- WORKFLOW ---------------------------
 
 " Integration of vim with pandoc (also handles markdown formats)
 Plug 'vim-pandoc/vim-pandoc' 
 Plug 'vim-pandoc/vim-pandoc-syntax' 
-Plug 'masukomi/vim-markdown-folding' "Because I disabled folding in vim-pandoc for now; only works for markdown extension currently. 
+" Plug 'masukomi/vim-markdown-folding' "Because I disabled folding in vim-pandoc for now; only works for markdown extension currently. 
 " Goyo and limelight for focused writing
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -93,6 +96,7 @@ Plug 'reedes/vim-colors-pencil'
 " Latex
 " Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 Plug 'lervag/vimtex'
+Plug 'matze/vim-tex-fold' "simple regexpr for folding sections
 
 " Autocorrect common typos
 " Custom list of iabbrev (1 sec delay on startup)
@@ -117,11 +121,16 @@ call plug#end()
 " Enable yanking to global clipboard for cross-terminal pasting
 set clipboard=unnamedplus
 
-" Disable spellchecking (':set spell' to enable again)
-set nospell
-
+" Enable spellchecking (':set spell' to enable again)
+set spell
 " Enable syntax highlighting
 syntax on 
+
+" Ignore case in searches
+set ignorecase
+
+" Allow switching buffers with unsaved work
+set hidden
 
 " Filetype detection
 if has("autocmd")
@@ -152,22 +161,26 @@ set autoread
 " set digraph
 
 " Disable gui clutter for gVim
-set guioptions-=m  "menu bar
-set guioptions-=T  "toolbar
-set guioptions-=r  "scrollbar
-
 " Settings for gVim on Windows
 if has ('gui_running')
 	if has ('gui_win32')
 		"set guifont=Courier_New:h10
 		set guifont=PragmataPro_Mono_Liga:h11
-		" Prevent annoying jumping after resizing
-		set guioptions-=r
-		set guioptions-=L
 		" Enable yanking to global clipboard for cross-terminal pasting
 		" Windows requires unnamed instead of unnamedplus
 		set clipboard=unnamed
+		" Disable gui clutter for gVim
+		set guioptions-=m  "menu bar
+		set guioptions-=T  "toolbar
+		set guioptions-=r  "scrollbar
+		" Prevent annoying jumping after resizing
+		set guioptions-=r
+		set guioptions-=L
+		"set shell=powershell
 		set shell=cmd.exe
+		" Windows assumes colon to be part of path names
+		" but that breaks references like file.txt:linenumber
+		set isfname -=:
 	endif
 endif
 
@@ -179,16 +192,49 @@ set t_Co=256
 set encoding=utf-8
 set fileencoding=utf-8
 
-" REMAPS ----------------------------------------
+" Highlight current line
+set cursorline
+
+" Use two spell languages by default
+set spelllang=en_us,nl,de
+
+" PYTHON ----------------------------------------
+
+if has ('gui_running')
+	if has ('gui_win32')
+        " Enable python support on Windows by showing where the .dll is"
+        " Check which .dll is expected with :version
+        let $PYTHONHOME = 'C:\Users\Edwin Wenink\AppData\Local\Programs\Python\Python36-32\'
+        " let $PYTHONHOME = 'C:\Users\Edwin Wenink\AppData\Local\Programs\Python\Python37-32\'
+        " Previous line didn't work... so I manually pointed to the python36.dll
+        let &pythonthreedll= 'C:\Users\Edwin Wenink\AppData\Local\Programs\Python\Python36-32\python36.dll'
+    " let &pythonthreedll= 'C:\Users\Edwin Wenink\AppData\Local\Programs\Python\Python37-32\python37.dll'
+    "let g:pymode_python = 'python3'
+    endif
+endif
+
+au FileType python setlocal expandtab shiftwidth=4 tabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,cla
+au FileType python set foldmethod=indent foldlevel=99
+
+" COC.VIM -----
+
+" Better display for messages
+"set cmdheight=2
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" MAPPINGS --------------------------------------
+
 
 " Map <F3> to open writer mode
 :nnoremap <F3> :Goyo<CR>
 
 " Open locallist vertically with custom function
 :nnoremap <F4> :Vlist<CR>
-
-" Map <F6> to LaTeX preview mode
-:nnoremap <F6> :LLPStartPreview<CR>
 
 " Map F8 to disabling auto indenting
 :nnoremap <F8> :setl noai nocin nosi<CR>
@@ -203,6 +249,19 @@ set fileencoding=utf-8
 " :nnoremap <Space> za
 " :vnoremap <Space> za
 
+" Open netrw in folder with blog posts 
+nnoremap <leader>ws :e ~/Website/personal_website<CR>
+
+" Open philosophy /th/esis folder
+nnoremap <leader>th :e ~/Documents/Philosophy/Thesis<CR>
+
+" Generate ctags
+nnoremap <leader>tt :silent !ctags -R . <CR>
+
+" Change directory to directory of current file
+nnoremap <leader>cd :cd %:h<CR>
+
+
 " Use SPACE to remove the highlighting from the last search
 :nnoremap <silent> <Space> :nohlsearch<CR><CR>
 :vnoremap <silent> <Space> :nohlsearch<CR><CR>
@@ -216,9 +275,9 @@ nnoremap <Right> :vertical-resize -2<CR>
 " CUSTOM COMMANDS ----------------------------------
 
 " Compile java files from within vim
-:command Javac !javac $(find . -name "*.java")
+:command! Javac !javac $(find . -name "*.java")
 
-" NOTETAKING SYTEM ---------------------------------
+" NOTETAKING SYSTEM
 "
 " Quickly create a new entry into the "Zettelkasten" 
 nnoremap <leader>z :e $NOTES_DIR/Zettelkasten/
@@ -321,8 +380,10 @@ set laststatus=2
 set noshowmode
 " Theme examples: https://github.com/vim-airline/vim-airline/wiki/Screenshots
 "let g:airline_theme='base16_3024'
-let g:airline_theme='jellybeans'
+"let g:airline_theme='jellybeans'
 "colorscheme base16-3024
+" Ad-hoc color rules 
+highlight VertSplit term=NONE
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
@@ -466,13 +527,10 @@ augroup pencil
 augroup END
 
 " Vim-pandoc and vim-pandoc-syntax (E.g. :Pandoc! pdf)
-" Disable folding for now because level indicators were highlighted ugly
-" FOUND THE ISSUE!
-" SEE :highlight
-"set conceallevel=0 "This disables the special symbols with ugly background.
-let g:pandoc#modules#disabled = ["folding"]
+" let g:pandoc#modules#disabled = ["folding"]
 
 " Use compound pandoc.markdown for best of both worlds
+" TODO write a blogpost about this
 augroup pandoc
     autocmd!
     autocmd Filetype pandoc,markdown set filetype=pandoc.markdown
@@ -481,6 +539,13 @@ augroup pandoc
     autocmd Filetype pandoc,markdown highlight Folded ctermbg=NONE
     "autocmd Filetype pandoc,markdown call AutoCorrect()
     autocmd Filetype pandoc,markdown EnableAutocorrect
+augroup END
+
+augroup latex
+	autocmd!
+	autocmd Filetype tex highlight Folded ctermbg=NONE guibg=NONE
+    autocmd Filetype tex highlight Conceal ctermbg=NONE guibg=NONE
+    "autocmd Filetype tex EnableAutocorrect
 augroup END
 
 " Set default pdf reader for LLPStartPreview (Latex Live Preview)
@@ -495,15 +560,37 @@ iabbrev informatoin information
 
 " COMPILING STUFF
 
-"Vimtex
+" Vimtex
+"let g:vimtex_enabled = 1
+"let g:vimtex_view_method = 'mupdf'
+let g:vimtex_view_method = 'zathura'
+"let g:vimtex_complete_bib = { 'simple': 1 }
+"let g:vimtex_complete_bib = { 'menu_fmt': '[@type] @author_all (@key), "@title"' }
+
+let g:vimtex_compiler_latexmk = {
+	\ 'backend' : 'jobs', 
+	\ 'background' : 1,
+	\ 'build_dir' : '',
+	\ 'callback' : 1,
+	\ 'continuous' : 0,
+	\ 'executable' : 'latexmk',
+	\ 'hooks' : [],
+	\ 'options' : [
+	\   '-verbose',
+	\   '-file-line-error',
+	\   '-synctex=1',
+	\   '-interaction=nonstopmode',
+	\ ],
+	\}
+
 "call deoplete#custom#var('omni', 'input_patterns', {
       "\ 'tex': g:vimtex#re#deoplete
       "\})
-let g:vimtex_view_method = 'zathura'
 
 " Select Latex Compile Defaults
 " filetype plugin indent off
 let g:tex_flavor = "latex"
+let g:Tex_BibtexFlavor = 'biber'
 let g:Tex_DefaultTargetFormat='pdf'
 let g:Tex_MultipleCompileFormats='pdf'
 " View rules
