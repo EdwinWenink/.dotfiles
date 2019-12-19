@@ -256,11 +256,11 @@ nnoremap <leader>ws :e ~/Website/personal_website<CR>
 nnoremap <leader>th :e ~/Documents/Philosophy/Thesis<CR>
 
 " Generate ctags
-nnoremap <leader>tt :silent !ctags -R . <CR>
+nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
+" command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
 
 " Change directory to directory of current file
 nnoremap <leader>cd :cd %:h<CR>
-
 
 " Use SPACE to remove the highlighting from the last search
 :nnoremap <silent> <Space> :nohlsearch<CR><CR>
@@ -272,12 +272,7 @@ nnoremap <Down> :resize -2<CR>
 nnoremap <Left> :vertical-resize +2<CR>
 nnoremap <Right> :vertical-resize -2<CR> 
 
-" CUSTOM COMMANDS ----------------------------------
-
-" Compile java files from within vim
-:command! Javac !javac $(find . -name "*.java")
-
-" NOTETAKING SYSTEM
+" NOTETAKING SYSTEM ----------------------------------
 "
 " Quickly create a new entry into the "Zettelkasten" 
 nnoremap <leader>z :e $NOTES_DIR/Zettelkasten/
@@ -289,7 +284,7 @@ nnoremap <leader>h :g/^#/#<CR>
 nnoremap <leader>r `1
 
 " Go to index of notes and set working directory to my notes
-nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>cd $NOTES_DIR
+nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>:cd $NOTES_DIR<CR>
 
 " 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
 " Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
@@ -371,6 +366,12 @@ command! -nargs=1 SearchJSONBacklinks R jq -r "<args>" "C:\Users\Edwin Wenink\Do
 
 nnoremap <leader>nb : call SearchBacklink()<CR>
 
+" CUSTOM COMMANDS ----------------------------------
+
+" Compile java files from within vim
+:command! Javac !javac $(find . -name "*.java")
+
+
 " GENERAL PLUGIN SETTINGS -----------------------------
 
 " Airline settings
@@ -381,9 +382,12 @@ set noshowmode
 " Theme examples: https://github.com/vim-airline/vim-airline/wiki/Screenshots
 "let g:airline_theme='base16_3024'
 "let g:airline_theme='jellybeans'
+let g:airline_theme='simple'
 "colorscheme base16-3024
-" Ad-hoc color rules 
-highlight VertSplit term=NONE
+
+" Ad-hoc highlighting rules 
+highlight VertSplit cterm=NONE
+highlight FoldColumn ctermbg=NONE
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
