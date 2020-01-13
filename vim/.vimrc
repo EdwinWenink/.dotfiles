@@ -257,7 +257,6 @@ nnoremap <leader>th :e ~/Documents/Philosophy/Thesis<CR>
 
 " Generate ctags
 nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
-" command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
 
 " Change directory to directory of current file
 nnoremap <leader>cd :cd %:h<CR>
@@ -445,7 +444,6 @@ let g:mucomplete#completion_delay = 1
 
 let g:mucomplete#chains = {
     \ 'default' : ['path', 'omni',  'ulti', 'keyn', 'dict', 'uspl'],
-    \ 'vim'     : ['path', 'cmd', 'ulti', 'keyn']
     \ }
 
 
@@ -542,7 +540,7 @@ augroup pandoc
     autocmd Filetype pandoc,markdown highlight Conceal ctermbg=NONE
     autocmd Filetype pandoc,markdown highlight Folded ctermbg=NONE
     "autocmd Filetype pandoc,markdown call AutoCorrect()
-    autocmd Filetype pandoc,markdown EnableAutocorrect
+    "autocmd Filetype pandoc,markdown EnableAutocorrect
 augroup END
 
 augroup latex

@@ -101,6 +101,7 @@ alias web='ranger --cmd="cd $WEBSITE"'
 alias task='bash /usr/local/bin/do.sh'
 alias did='/bin/bash done.sh'
 alias notes='vim ~/Documents/Notes/index.md'
+alias emacs='emacs & disown'
 
 # Nicer command outputs
 alias ls='ls --color=auto'

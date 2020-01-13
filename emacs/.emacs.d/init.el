@@ -15,6 +15,9 @@
     (setq default-directory "C:/Users/Edwin Wenink/")
 )
 
+;; Go to notes directory
+(global-set-key (kbd "C-c C-n") (lambda() (interactive) (find-file "~/Documents/Notes/index.md" )))
+
 ;; UTF-8 
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
@@ -77,6 +80,14 @@
 (setq version-control t)
 (setq vc-make-backup-files t)
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+;; Modeline customization
+(use-package smart-mode-line
+  :ensure t
+  :config
+  (setq sml/no-confirm-load-theme t)
+  (sml/setup)
+)
 
 ;; Display time in modeline
 (display-time-mode 1)
@@ -225,7 +236,8 @@
 	  (setq org-confirm-babel-evaluate nil
 			org-odt-data-dir "~/.emacs.d/elisp/org-mode/etc/"
 			org-odt-styles-dir "~/.emacs.d/elisp/org-mode/etc/styles/"
-			org-directory "~/org/"
+			;;org-directory "~/org/"
+			org-directory "~/Dropbox/org/"
 			org-archive-location (concat org-directory "archive.org::datetree/* Finished Tasks") 
 			org-default-notes-file (concat org-directory "notes.org")
 			org-todo-keywords
@@ -380,10 +392,10 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/org/habits.org" "~/org/schedule.org" "~/org/emacs.org" "~/org/todo.org")))
+    ("~/Dropbox/org/inbox.org" "~/org/habits.org" "~/org/schedule.org" "~/org/emacs.org" "~/org/todo.org")))
  '(package-selected-packages
    (quote
-    (elfeed-org elfeed markdown-mode wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
+    (smart-mode-line elfeed-org elfeed markdown-mode wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
