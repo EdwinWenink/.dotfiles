@@ -57,9 +57,9 @@ __prompt_command() {
     PS1="\e[3${HOSTCOLOR}m[\h|\e[3${USERCOLOR}m\u] \e[3${PATHCOLOR}m\W $_BRANCH_STR ";
 
     if [ $EXITCODE == 0 ]; then
-        PS1+="\e[32m> \e[0m";
+        PS1+="\n\e[32m> \e[0m";
     else
-        PS1+="\e[31m> \e[0m";
+        PS1+="\n\e[31m> \e[0m";
     fi
 }
 
