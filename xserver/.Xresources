@@ -23,7 +23,6 @@
 ! Run `infocmp -D` to see terminfo dirs. 
 ! Right term info resides in /usr/share/terminfo/r/rxvt-unicode-256color
 URxvt*termName: rxvt-unicode-256color
-!URxvt*termName: xterm-256color
 URxvt*geometry: 160x75
 URxvt*loginShell: true
 URxvt*scrollBar: false
@@ -44,3 +43,11 @@ URxvt*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
 !URxvt.keysum.End: \033[4~
 !URxvt.keysum.KP_Home: \033[1~
 !URxvt.keysum.KP_End: \033[4~
+
+!xterm*font:     *-fixed-*-*-*-18-*
+xterm*termName: xterm-256color
+xterm*cursorBlink: true
+xterm*cursorColor: magenta
+xterm*cursorUnderline: false
+xterm*highlightColor: magenta
+xterm*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15

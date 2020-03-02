@@ -274,7 +274,7 @@ nnoremap <Right> :vertical-resize -2<CR>
 " NOTETAKING SYSTEM ----------------------------------
 "
 " Quickly create a new entry into the "Zettelkasten" 
-nnoremap <leader>z :e $NOTES_DIR/Zettelkasten/
+nnoremap <leader>nz :e $NOTES/Zettelkasten/
 
 " Find and list all Markdown headers
 nnoremap <leader>h :g/^#/#<CR>
@@ -283,12 +283,12 @@ nnoremap <leader>h :g/^#/#<CR>
 nnoremap <leader>r `1
 
 " Go to index of notes and set working directory to my notes
-nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>:cd $NOTES_DIR<CR>
+nnoremap <leader>ni :e $NOTES/index.md<CR>:cd $NOTES<CR>
 
-" 'Notes Grep' (adapted from Conner McDaniel). I set NOTES_DIR in bashrc
+" 'Notes Grep' (adapted from Conner McDaniel). I set NOTES in bashrc
 " Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
 " The \c escape makes the search case insensitive
-" command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES_DIR/**/*.md
+" command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES/**/*.md
 
 " TODO exclude index.md from all search functions
 
@@ -296,7 +296,7 @@ nnoremap <leader>ni :e $NOTES_DIR/index.md<CR>:cd $NOTES_DIR<CR>
 " -i case insensitive
 " -g glob pattern
 " ! to not immediately open first search result
-command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES_DIR | execute ':redraw!'
+command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES | execute ':redraw!'
 nnoremap <leader>nn :Ngrep 
 
 " Open quickfix list in a right vertical split (good for Ngrep results)
@@ -306,7 +306,7 @@ nnoremap <leader>v : Vlist<CR>
 " Variant for searching a tag starting with @
 " Prepopulate search with <cword> i.e. tag under cursor, but allow replacement
 " TODO are optimalizations possible, e.g. stopping search early?
-command! -nargs=1 Tgrep :silent grep! "@<args>" -i -g "*.md" $NOTES_DIR | execute ':redraw!'
+command! -nargs=1 Tgrep :silent grep! "@<args>" -i -g "*.md" $NOTES | execute ':redraw!'
 "nnoremap <leader>t :Tgrep <cword>
 
 " Helper function for calling Tgrep

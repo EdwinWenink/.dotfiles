@@ -31,7 +31,7 @@ PATH=$PATH:~/Scripts
 export PATH=$PATH:/opt/anaconda/bin
 export PATH=$PATH:$HOME/.node_modules_global/bin
 export PATH=$PATH:/home/edwin/Documents/AI/clean3/bin
-export NOTES_DIR=/home/edwin/Documents/Notes
+export NOTES=/home/edwin/Documents/Notes
 export WEBSITE=/home/edwin/Website/personal_website
 
 # PS1 Setup

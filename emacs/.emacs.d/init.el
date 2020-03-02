@@ -1,4 +1,4 @@
-;; load package manager, add the Melpa package registry
+;; Load package manager, add the Melpa package registry
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -424,7 +424,7 @@
 (defun org ()
   "Open main 'org-mode' file and start 'org-agenda' for today."
   (interactive)
-  (find-file (concat org-directory "inbox.org"))
+  (find-file (concat org-directory "todo.org"))
   (org-agenda-list)
   (org-agenda-day-view)
   (shrink-window-if-larger-than-buffer)
@@ -612,10 +612,10 @@
     ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/inbox.org" "~/Dropbox/org/active.org" "~/Dropbox/org/dates.org" "~/Dropbox/org/habit.org"  )))
+    ("~/Dropbox/org/inbox.org" "~/Dropbox/org/active.org" "~/Dropbox/org/dates.org" "~/Dropbox/org/habits.org")))
  '(package-selected-packages
    (quote
-    (org-super-agenda elfeed-goodies smart-mode-line sml latex-pretty-symbols auctex elfeed-org elfeed markdown-mode wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package)))
+    (ivy-bibtex org-super-agenda elfeed-goodies smart-mode-line sml latex-pretty-symbols auctex elfeed-org elfeed markdown-mode wc-mode wcMode key-chord evil-org evil-surround evil-goggles evil-expat evil-visualstar evil-replace-with-register evil-exchange evil-commentary evil-lion evil-collection evil use-package)))
  '(winner-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
