@@ -45,9 +45,13 @@ URxvt*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
 !URxvt.keysum.KP_End: \033[4~
 
 !xterm*font:     *-fixed-*-*-*-18-*
-xterm*termName: xterm-256color
-xterm*cursorBlink: true
-xterm*cursorColor: magenta
-xterm*cursorUnderline: false
-xterm*highlightColor: magenta
-xterm*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
+XTerm*termName: xterm-256color
+XTerm*cursorBlink: true
+XTerm*cursorColor: magenta
+XTerm*cursorUnderline: false
+XTerm*colorUL: yellow
+XTerm*highlightColor: magenta
+XTerm*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
+!fix issue with mutt Alt key
+XTerm.vt100.metaSendsEscape: true
+XTerm*metaSendsEscape: true

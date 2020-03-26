@@ -5,6 +5,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Set default terminal for i3
+# https://jlk.fjfi.cvut.cz/arch/manpages/man/i3-sensible-terminal.1
+export TERMINAL=xterm
+
 # Default prompt
 #PS1='[\u@\h \W]\$ '
 
@@ -72,7 +76,8 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 # Choose Base16 theme
 #base16_pop
 #base16_default-light
-base16_papercolor-dark
+#base16_papercolor-dark
+base16_google-light
 #random-color-scheme.sh
 
 # Source alias not found hook
@@ -82,7 +87,7 @@ base16_papercolor-dark
 
 alias lsd=changeDirectory
 alias bashedit='vim /etc/bash.bashrc'
-alias ..='cd ..'
+#alias ..='cd ..'
 alias bye=customShutdown
 alias ai='cd /home/edwin/Documents/AI/'
 alias reopen=reopen.sh
@@ -102,6 +107,7 @@ alias task='bash /usr/local/bin/do.sh'
 alias did='/bin/bash done.sh'
 alias notes='vim ~/Documents/Notes/index.md'
 alias emacs='emacs & disown'
+alias weather='curl wttr.in'
 
 # Nicer command outputs
 alias ls='ls --color=auto'
