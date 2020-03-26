@@ -193,13 +193,25 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
-
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# REPLACED WITH POLYBAR, SO COMMENTED OUT FOR NOW
 bar {
-        status_command i3status
+        #status_command i3status
+        status_command i3status -c ~/.config/i3/i3status.conf
+        position bottom
+        #mode hide
+        separator_symbol ":|:"
+        tray_padding 2
+        # For white theme
+        colors {
+            background #FFFFFF
+            statusline #000000
+            separator  #000000
+            # border background text
+            focused_workspace #FFFFFF #000000  #FFFFFF
+            active_workspace #000000 #FFFFFF #000000
+            inactive_workspace #FFFFFF #FFFFFF #000000
+        }
 }
 
 ####::::::::::::::::::::::####
@@ -212,7 +224,8 @@ gaps inner 20
 gaps outer -5
 
 # Start polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+#exec_always --no-startup-id ~/.config/polybar/launch.sh
+
 
 # Float windows by default
 # for_window [class="^.*"] floating enable
@@ -238,7 +251,6 @@ exec --no-startup-id nm-applet -startintray
 # Start browser & disown
 # bindsym $mod+Shift+Return exec firefox & disown
 bindsym $mod+Shift+Return exec qutebrowser & disown
-
 
 #Lock Screen
 bindsym $mod+Shift+o exec --no-startup-id ~/.config/i3/lock.sh

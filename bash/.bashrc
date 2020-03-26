@@ -41,6 +41,8 @@ export WEBSITE=/home/edwin/Website/personal_website
 # PS1 Setup
 PROMPT_COMMAND=__prompt_command
 
+# Old one; commented out
+: <<'END'
 __prompt_command() {
     local EXITCODE="$?"
 
@@ -65,6 +67,17 @@ __prompt_command() {
     else
         PS1+="\n\e[31m> \e[0m";
     fi
+}
+END
+
+__prompt_command() {
+    local EXITCODE="$?"
+    RCol='\033[0m'
+    Gre='\033[32m';
+    Red='\033[31m';
+    Blu='\033[34m';
+    Yel='\033[33m';
+    PS1="${RCol}┌─[\`if [ \$? = 0 ]; then echo "${Gre}"; else echo "${Red}"; fi\`\t\[${Rcol}\] \[${Blu}\]\h\[${RCol}\] \[${Yel}\]\w\[${RCol}\]]\n└─╼ "
 }
 
 # Base16 Shell
@@ -120,7 +133,6 @@ alias tg='telegram-cli -N'
 
 command_not_found_handle() {
     echo ":-(" 
-  
   return 127
 }
 
@@ -140,8 +152,8 @@ function openAndDisown {
 
 # Welcome message
 #cat /usr/bin/ascii/ju87.txt
-echo Date: $(date +%F)
-echo Time: $(date +%T)
+#echo Date: $(date +%F)
+#echo Time: $(date +%T)
 echo $(acpi)
 
 # Automatically do an ls after each cd
