@@ -32,7 +32,6 @@ export LESS_TERMCAP_us=$(printf '\e[04;34m')
 PATH=$PATH:~/Scripts
 
 # Setting variables
-export PATH=$PATH:/opt/anaconda/bin
 export PATH=$PATH:$HOME/.node_modules_global/bin
 export PATH=$PATH:/home/edwin/Documents/AI/clean3/bin
 export NOTES=/home/edwin/Documents/Notes
@@ -41,33 +40,8 @@ export WEBSITE=/home/edwin/Website/personal_website
 # PS1 Setup
 PROMPT_COMMAND=__prompt_command
 
-# Old one; commented out
+# This is how you do comments
 : <<'END'
-__prompt_command() {
-    local EXITCODE="$?"
-
-    local HOSTCOLOR="5"
-    local USERCOLOR="3"
-    local PATHCOLOR="4"
-
-    #PS1="\e[3${HOSTCOLOR}m \h  \e[3${USERCOLOR}m \u  \e[3${PATHCOLOR}m \w \n";
-
-	_BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
-	if [ ! $_BRANCH == "" ]
-	then
-		_BRANCH_STR="[\[$(tput sgr0)\]\[\033[38;5;11m\]$_BRANCH\[$(tput sgr0)\]\[\033[38;5;7m\]]"
-	else
-		_BRANCH_STR=""
-	fi
-
-    PS1="\e[3${HOSTCOLOR}m[\h|\e[3${USERCOLOR}m\u] \e[3${PATHCOLOR}m\W $_BRANCH_STR ";
-
-    if [ $EXITCODE == 0 ]; then
-        PS1+="\n\e[32m> \e[0m";
-    else
-        PS1+="\n\e[31m> \e[0m";
-    fi
-}
 END
 
 __prompt_command() {
@@ -77,7 +51,8 @@ __prompt_command() {
     Red='\033[31m';
     Blu='\033[34m';
     Yel='\033[33m';
-    PS1="${RCol}┌─[\`if [ \$? = 0 ]; then echo "${Gre}"; else echo "${Red}"; fi\`\t\[${Rcol}\] \[${Blu}\]\h\[${RCol}\] \[${Yel}\]\w\[${RCol}\]]\n└─╼ "
+    Lambda=$'\U03bb';
+    PS1="${RCol}┌─[\`if [ \$? = 0 ]; then echo "${Gre}"; else echo "${Red}"; fi\`\t\[${Rcol}\] \[${Blu}\]\h\[${RCol}\] \[${Yel}\]\w\[${RCol}\]]\n└─╼ ${Lambda} "
 }
 
 # Base16 Shell
@@ -121,6 +96,7 @@ alias did='/bin/bash done.sh'
 alias notes='vim ~/Documents/Notes/index.md'
 alias emacs='emacs & disown'
 alias weather='curl wttr.in'
+alias wifi='/bin/bash list_wifi.sh'
 
 # Nicer command outputs
 alias ls='ls --color=auto'
@@ -154,7 +130,7 @@ function openAndDisown {
 #cat /usr/bin/ascii/ju87.txt
 #echo Date: $(date +%F)
 #echo Time: $(date +%T)
-echo $(acpi)
+#echo $(acpi)
 
 # Automatically do an ls after each cd
 cd() {
@@ -167,12 +143,5 @@ cd() {
 
 BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/vim
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# BEGIN LAMACHINE MANAGED BLOCK - path
-if [[ "$PATH" != *"/home/edwin/bin"* ]]; then
-    export PATH=~/bin:$PATH #add ~/bin to $PATH, that is where the activation scripts are
-fi
-# END LAMACHINE MANAGED BLOCK - path
 
 export PATH=~/Jason/scripts/:$PATH

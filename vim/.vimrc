@@ -2,6 +2,8 @@
 "
 " Specify a directory for plugins
 " - Avoid using standard Vim directory names like 'plugin'
+"
+" TODO disable autopair for prose style types like .txt and .md 
 call plug#begin('~/.vim/plugged')
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
@@ -16,6 +18,9 @@ Plug 'honza/vim-snippets'
 
 " File explorers
 Plug 'tpope/vim-vinegar'
+
+" Bulk rename files
+Plug 'qpkorr/vim-renamer'
 
 " Fuzzy file finding
 Plug 'kien/ctrlp.vim'
@@ -38,11 +43,6 @@ Plug 'romainl/vim-cool'
 
 " ------------------ CODING/IDE SIMULATION ---------------------------
 
-" Autocompletion
-"Plug 'Shougo/deoplete.nvim'
-"Plug 'roxma/nvim-yarp'
-"Plug 'roxma/vim-hug-neovim-rpc'
-
 " Surround with brackets (yss new surroundings, cst" change, ds" delete )
 Plug 'tpope/vim-surround'
 
@@ -50,10 +50,29 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
 " Autocompletion that only uses native vim autocomplete features
-Plug 'lifepillar/vim-mucomplete'
+" Plug 'lifepillar/vim-mucomplete'
+" Autocompletion
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
+
+" Code formatting
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+
+" Javascript syntax
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
 
 " Autclose bracket-like symbols
 Plug 'jiangmiao/auto-pairs'
+
+" Graphics shader syntax
+Plug 'tikhomirov/vim-glsl'
+Plug 'beyondmarc/hlsl.vim'
 
 " Run commands without vim in tmux pane with VimuxRunCommand (you are supposed
 " to run vim within tmux then)
@@ -63,10 +82,10 @@ Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Keeps track of git changes
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 " Display tags of current file in a sidebar / Class outline
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 
 " Full-featured document outliner, e.g. voor markdown or latex (:Voom latex)
 Plug 'vim-scripts/VOoM'
@@ -76,7 +95,6 @@ Plug 'vim-scripts/VOoM'
 
 " Align e.g. on comma's with ' Tabularize /, '
 Plug 'godlygeek/tabular'
-
 
 " ----------------- WORKFLOW ---------------------------
 
@@ -90,6 +108,9 @@ Plug 'junegunn/limelight.vim'
 
 " Markdown / Writing
 " Plug 'jtratner/vim-flavored-markdown'
+Plug 'jtratner/vim-flavored-markdown'
+Plug 'godlygeek/tabular'
+Plug 'prashanthellina/follow-markdown-links'  "Press ENTER to follow link
 Plug 'reedes/vim-pencil'
 Plug 'reedes/vim-colors-pencil'
 
@@ -115,14 +136,15 @@ Plug 'swalladge/paper.vim'
 call plug#end()
 
 
-" GENERAL SETTINGS -----------------------------------
-"
+" ----------------------------------- GENERAL SETTINGS -----------------------------------
 
 " Enable yanking to global clipboard for cross-terminal pasting
 set clipboard=unnamedplus
+set path+=**
 
 " Enable spellchecking (':set spell' to enable again)
 set spell
+
 " Enable syntax highlighting
 syntax on 
 
@@ -132,6 +154,9 @@ set ignorecase
 " Allow switching buffers with unsaved work
 set hidden
 
+" Change default 8 column tab to 4 column tab and expand to spaces
+:set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+
 " Filetype detection
 if has("autocmd")
     filetype on
@@ -139,8 +164,6 @@ if has("autocmd")
     filetype plugin on
 endif
 
-" Change default 8 column tab to 4 column tab and expand to spaces
-:set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 " Set fold level: max level to fold on opening a file
 set foldlevel=1
@@ -198,6 +221,15 @@ set cursorline
 " Use two spell languages by default
 set spelllang=en_us,nl,de
 
+" In GUI versions, rely on undercurl for spell errors
+highlight SpellBad guibg=NONE
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" do not show signcolumns
+set signcolumn=no
+
 " PYTHON ----------------------------------------
 
 if has ('gui_running')
@@ -213,19 +245,38 @@ if has ('gui_running')
     endif
 endif
 
-au FileType python setlocal expandtab shiftwidth=4 tabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,cla
-au FileType python set foldmethod=indent foldlevel=99
+augroup python
+	autocmd!
+	autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,cla
+	autocmd FileType python set foldmethod=indent foldlevel=99
+augroup END
 
-" COC.VIM -----
+" JAVASCRIPT -------------------------------------- 
 
-" Better display for messages
-"set cmdheight=2
+augroup javascript
+    autocmd!
+    autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2
+    autocmd Filetype javascript set conceallevel=1
+augroup END
 
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
+" vim-javascript
+let g:javascript_conceal_function             = "ƒ"
+let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "⇚"
+let g:javascript_conceal_undefined            = "¿"
+let g:javascript_conceal_NaN                  = "ℕ"
+let g:javascript_conceal_prototype            = "¶"
+let g:javascript_conceal_static               = "•"
+let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "⇒"
+let g:javascript_conceal_noarg_arrow_function = "🞅"
+let g:javascript_conceal_underscore_arrow_function = "🞅"
 
-" always show signcolumns
-set signcolumn=yes
+"vim-jsx-pretty'
+let g:vim_jsx_pretty_colorful_config = 0 " default 0
+
+
 
 " MAPPINGS --------------------------------------
 
@@ -261,6 +312,14 @@ nnoremap <leader>tt :silent !ctags -R . <CR>:redraw!<CR>
 " Change directory to directory of current file
 nnoremap <leader>cd :cd %:h<CR>
 
+" Timestamp
+iabbrev date- <c-r>=strftime("%Y/%m/%d %H:%M:%S")<cr>
+" Invoegen op dezelfde lijn zou beter zijn
+nnoremap <leader>ts i--------------<ESC>:put! =strftime(\"%a %Y/%m/%d\")<CR>i<CR>--------------<CR><Down><Down><ESC>
+
+noremap! <expr> ,Y strftime("%Y")
+noremap! <expr> ,D strftime("%b")
+
 " Use SPACE to remove the highlighting from the last search
 :nnoremap <silent> <Space> :nohlsearch<CR><CR>
 :vnoremap <silent> <Space> :nohlsearch<CR><CR>
@@ -271,37 +330,42 @@ nnoremap <Down> :resize -2<CR>
 nnoremap <Left> :vertical-resize +2<CR>
 nnoremap <Right> :vertical-resize -2<CR> 
 
-" NOTETAKING SYSTEM ----------------------------------
+" ------------------ NOTETAKING SYSTEM ---------------------------
 "
-" Quickly create a new entry into the "Zettelkasten" 
-nnoremap <leader>nz :e $NOTES/Zettelkasten/
+" Overview of bindings (assuming "\" as leader key)
+" All note taking command start with "\n"
+" rg executable is assumed for now (I should have regular grep as fallback)
+"
+" \ni  go to index file (currently tag_index.md)
+" \nz  Create a new Zettelkasten entry
+" \nu  Call python update script
+" \ng  Ngrep
+" \nt  Tgrep
+" \nv  Vlist
+"
+" Other useful bindings:
+"
+" \st  Use CtrlP to search tags (from ctags; TODO can I pass a custom tags file?)
+" \tt  Generate ctags for current working directory
+" Ctrl-P Ctrl-X  insert markdown link for current search match
+"
+" TODO Ngrep en tgrep alleen in Zettelkasten laten zoeken MITS ik alle
+" notities daarin zet
 
-" Find and list all Markdown headers
-nnoremap <leader>h :g/^#/#<CR>
- 
-" Open most recently edited file (selects index 1 from :oldfiles)
-nnoremap <leader>r `1
-
-" Go to index of notes and set working directory to my notes
-nnoremap <leader>ni :e $NOTES/index.md<CR>:cd $NOTES<CR>
-
-" 'Notes Grep' (adapted from Conner McDaniel). I set NOTES in bashrc
-" Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
-" The \c escape makes the search case insensitive
-" command! -nargs=1 Ngrep lvimgrep "<args>\c" $NOTES/**/*.md
-
-" TODO exclude index.md from all search functions
+" Set your note directories here
+let g:notes_dir = "~/Documents/Notes/"
+let g:zettelkasten = "~/Documents/Notes/Zettelkasten/"
 
 " 'Notes Grep' with ripgrep (see grepprg)
 " -i case insensitive
 " -g glob pattern
 " ! to not immediately open first search result
 command! -nargs=1 Ngrep :silent grep! "<args>" -i -g '*.md' $NOTES | execute ':redraw!'
-nnoremap <leader>nn :Ngrep 
-
-" Open quickfix list in a right vertical split (good for Ngrep results)
-command! Vlist botright vertical copen | vertical resize 50
-nnoremap <leader>v : Vlist<CR>
+" TODO functie maken om fnameescape(notes_dir) te gebruiken; evalueer
+" variabele met execute
+nnoremap <leader>ng :Ngrep 
+" Tips: use :lne(xt) and :lp(revious) or :lopen for navigation.
+" The \c escape makes the search case insensitive
 
 " Variant for searching a tag starting with @
 " Prepopulate search with <cword> i.e. tag under cursor, but allow replacement
@@ -312,7 +376,8 @@ command! -nargs=1 Tgrep :silent grep! "@<args>" -i -g "*.md" $NOTES | execute ':
 " Helper function for calling Tgrep
 " If empty string is provided (default), then the word under the cursor 
 " is used as the search pattern
-:function TagSearch(word)
+" TODO check for rg and use vimgrep as fallback if not present
+:function TagGrep(word)
 :	if a:word == ""
 :		execute "Tgrep ". "<cword>"
 :	else 	
@@ -320,11 +385,107 @@ command! -nargs=1 Tgrep :silent grep! "@<args>" -i -g "*.md" $NOTES | execute ':
 :	endif
 :endfunction
 
-nnoremap <leader>nt :call TagSearch("")<left><left>
+nnoremap <leader>nt :call TagGrep("")<left><left>
 
 " Do a Vimgrep on the current word
 " https://vim.fandom.com/wiki/Find_in_files_within_Vim
 map <leader>c :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+" Open quickfix list in a right vertical split (good for Ngrep results)
+
+command! Vlist botright vertical copen | vertical resize 50
+nnoremap <leader>v : Vlist<CR>
+
+" Go to index of notes and set working directory to my notes
+nnoremap <leader>ni :e $NOTES/tag_index.md<CR>:cd $NOTES<CR>
+
+" Quickly create a new entry into the "Zettelkasten" 
+" nnoremap <leader>nz :e $NOTES/Zettelkasten/
+" (automatically adds markdown extension)
+"nnoremap <leader>nz :e C:/Users/Edwin\ Wenink/Documents/Notes/Zettelkasten/
+command! -nargs=1 NewZettel :execute ":e" zettelkasten . strftime("%Y%m%d%H%M") . "-<args>.md"
+nnoremap <leader>nz :NewZettel 
+
+" Notes update ('nu'): run python update script
+nnoremap <leader>nu :!python "C:\Users\Edwin Wenink\Documents\Notes\update.py"<CR>
+
+" Find and list all Markdown headers
+nnoremap <leader>h :g/^#/#<CR>
+ 
+" Open most recently edited file (selects index 1 from :oldfiles)
+nnoremap <leader>r `1
+
+" -------------- CtrlP setup for markdown notes ---------------- "
+
+" CtrlP general settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+
+" Binding for searching tags ("search tag")
+nnoremap <leader>st :CtrlPTag<CR>
+
+" By default search on filenames and not paths
+let g:ctrlp_by_filename = 1
+
+" Make CtrlP just use Vim's current working directory
+let g:ctrlp_working_path_mode = 0
+
+" Make ctrlp and vimgrep use ripgrep
+if executable('rg')
+  set grepprg=rg\ --color=never\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+  let g:ctrlp_use_caching = 0
+endif
+
+" CtrlP function for inserting a markdown link with Ctrl-X
+" Adapted from: https://vi.stackexchange.com/questions/8976/is-there-a-way-to-insert-a-path-of-the-file-instead-of-opening-it-with-ctrlp-plu
+function! CtrlPOpenFunc(action, line)
+   if a:action =~ '^h$'    
+      " Get the filename
+      let filename = fnameescape(fnamemodify(a:line, ':t'))
+	  let filename_wo_timestamp = fnameescape(fnamemodify(a:line, ':t:s/\d*-//'))
+
+      " Close CtrlP
+      call ctrlp#exit()
+      call ctrlp#mrufiles#add(filename)
+
+      " Insert the markdown link to the file in the current buffer
+	  let mdlink = "[".filename_wo_timestamp."](".filename.")"
+      put=mdlink
+  else    
+      " Use CtrlP's default file opening function
+      call call('ctrlp#acceptfile', [a:action, a:line])
+   endif
+endfunction
+
+let g:ctrlp_open_func = { 
+         \ 'files': 'CtrlPOpenFunc',
+         \ 'mru files': 'CtrlPOpenFunc' 
+         \ }
+
+
+
+" TODO exclude index.md from all search functions
+
+
+" ---------------- WIP ---------------- "
+
+" Mostly old efforts to work with JSON file
+
+" TODO Write function that writes tags to a tags file
+" Read all "@" staments in the first n lines of a file (to avoid e.g.
+" @Override matching)
+" Write them somewhere, but without duplicates
+" Result should be sorted
+" Potentially follow standard ctags or helptags syntax so that :tags command
+" can be used
+
+" TODO Decode JSON tags file using native Vim functions
+" I do not know how to pass a file to json_decode
+:function! ReadTagsJSON()
+":	e C:\Users\Edwin Wenink\Documents\Notes\tags.json
+:	let test_dict = json_decode('{"a":["b"]}')
+:	echo test_dict.a
+:endfunction
 
 " From https://vim.fandom.com/wiki/Append_output_of_an_external_command
 :command! -nargs=* -complete=shellcmd R new | setlocal buftype=nofile bufhidden=hide noswapfile | r !<args>
@@ -365,19 +526,14 @@ command! -nargs=1 SearchJSONBacklinks R jq -r "<args>" "C:\Users\Edwin Wenink\Do
 
 nnoremap <leader>nb : call SearchBacklink()<CR>
 
-" CUSTOM COMMANDS ----------------------------------
-
-" Compile java files from within vim
-:command! Javac !javac $(find . -name "*.java")
-
-
 " GENERAL PLUGIN SETTINGS -----------------------------
 
 " Airline settings
-" Always display statusline
 set laststatus=2 
+
 " Avoid showing mode (e.g. -- INSERT -- ) below airline
 set noshowmode
+
 " Theme examples: https://github.com/vim-airline/vim-airline/wiki/Screenshots
 "let g:airline_theme='base16_3024'
 "let g:airline_theme='jellybeans'
@@ -389,74 +545,62 @@ highlight VertSplit cterm=NONE
 highlight FoldColumn ctermbg=NONE
 
 " Deoplete
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 0
+" Enable snippet completion
+let g:neosnippet#enable_completed_snippet = 1
 
 " Auto pairs
 " Avoid conflict with Mucomplete
 let g:AutoPairsMapSpace = 0
-imap <silent> <expr> <space> pumvisible()
-    \ ? "<space>"
-    \ : "<c-r>=AutoPairsSpace()<cr>"
+"imap <silent> <expr> <space> pumvisible()
+    "\ ? "<space>"
+    "\ : "<c-r>=AutoPairsSpace()<cr>"
 
 let g:AutoPairsMapCR = 0
-imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
-imap <cr> <Plug>MyCR
+"imap <Plug>MyCR <Plug>(MUcompleteCR)<Plug>AutoPairsReturn
+"imap <cr> <Plug>MyCR
 
 " Issue: C-J is defined in imap.vim, but I want to use it with ultisnips and
 " multicomplete. Set it to something else
-imap <C-space> <Plug>IMAP_JumpForward
+"imap <C-space> <Plug>IMAP_JumpForward
 
-" Ultisnips
-" From help mucomplete-compatibility
-
-let g:UltiSnipsExpandTrigger = "<c-l>"        " Do not use <tab>
-let g:UltiSnipsJumpForwardTrigger = "<C-j>"  " Do not use <c-j>
-
-"let g:ulti_expand_or_jump_res = 0
-
-"fun! TryUltiSnips()
-  "if !pumvisible() " With the pop-up menu open, let Tab move down
-    "call UltiSnips#ExpandSnippetOrJump()
-  "endif
-  "return ''
-"endf
-
-"fun! TryMUcomplete()
-  "return g:ulti_expand_or_jump_res ? "" : "\<plug>(MUcompleteFwd)"
-"endf
-"
-"inoremap <plug>(TryUlti) <c-r>=TryUltiSnips()<cr>
-"imap <expr> <silent> <plug>(TryMU) TryMUcomplete()
-"imap <expr> <silent> <tab> "\<plug>(TryUlti)\<plug>(TryMU)"
 
 " Expand snippet on selecting mucomplete entry
-inoremap <silent> <expr> <plug>MyCR
-    \ mucomplete#ultisnips#expand_snippet("\<cr>")
-imap <cr> <plug>MyCR
+" inoremap <silent> <expr> <plug>MyCR
+    "\ mucomplete#ultisnips#expand_snippet("\<cr>")
+"imap <cr> <plug>MyCR
 
  "MUComplete settings
-set completeopt+=menuone
-set completeopt+=noselect
-set shortmess+=c "Shut off completion messages
-set belloff+=ctrlg "Disable vim beeping during completion
-let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#completion_delay = 1
+"set completeopt+=menuone
+"set completeopt+=noselect
+"set shortmess+=c "Shut off completion messages
+"set belloff+=ctrlg "Disable vim beeping during completion
+"let g:mucomplete#enable_auto_at_startup = 1
+"let g:mucomplete#completion_delay = 1
 
-let g:mucomplete#chains = {
-    \ 'default' : ['path', 'omni',  'ulti', 'keyn', 'dict', 'uspl'],
-    \ }
+" I seem to have introduced some sort of recursive fallback in the case of
+" tex, when a completion is not found.
+" let g:mucomplete#chains = {
+"   \ 'default' : ['path', 'omni',  'ulti', 'keyn', 'dict', 'uspl'],
+"   \ }
 
-
-" Make CtrlP and grep use ripgrep
-if executable('rg')
-    set grepprg=rg\ --color=never\ --vimgrep
-    set grepformat=%f:%l:%c:%m
-    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-    let g:ctrlp_user_caching = 0
-endif
-
-" What to ignore while searching files, speeds up CtrlP
+" Make dir search (wildmenu) ignore certain files for speedup (could also
+" check out ctrlp_custom_ignore)
 set wildignore+=*/.git/*,*/tmp/*,*.swp
+
+" Vim easy align
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" Shader syntax highlighting
+augroup shader
+    autocmd!
+	autocmd BufNewFile,BufRead *.compute set ft=hlsl
+	autocmd BufNewFile,BufRead *.compute set nospell
+augroup END
     
 " VIM / TMUX INTEGRATION -------------------------------
 
@@ -470,7 +614,7 @@ map <Leader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
 map <Leader>vl :VimuxRunLastCommand<CR>
 
-" MARKDOWN/PROSE SETTINGS -------------------------------
+"------------------------------- MARKDOWN/PROSE SETTINGS -------------------------------
 
 " Settings for limelight with dark background (:help cterm-colors)
 "let g:limelight_conceal_ctermfg = 'gray'
@@ -528,8 +672,14 @@ augroup pencil
 	autocmd Filetype text call pencil#init()
 augroup END
 
+"------------------------------- PANDOC and LATEX styling  -------------------------------
+
 " Vim-pandoc and vim-pandoc-syntax (E.g. :Pandoc! pdf)
 " let g:pandoc#modules#disabled = ["folding"]
+" Temporarily disable these because they do not work with Python 3.7
+let g:pandoc#modules#disabled = ["bibliographies", "command", "templates","menu"]
+let g:pandoc#modules#warn_disabled = 0
+let g:pandoc#syntax#conceal#urls = 1
 
 " Use compound pandoc.markdown for best of both worlds
 " TODO write a blogpost about this
@@ -549,7 +699,7 @@ augroup latex
     autocmd Filetype tex highlight Conceal ctermbg=NONE guibg=NONE
     "autocmd Filetype tex EnableAutocorrect
 augroup END
-
+			
 " Set default pdf reader for LLPStartPreview (Latex Live Preview)
 let g:livepreview_previewer = 'zathura'
 
@@ -559,10 +709,13 @@ set thesaurus+=~/.vim/mthesaur.txt
 " Custom spelling replacements (put in another file later)
 iabbrev informatoin information
 
+"------------------------------- COMPILING STUFF / LaTeX -------------------------------
 
-" COMPILING STUFF
+" Compile java files from within vim
+:command! Javac !javac $(find . -name "*.java")
 
 " Vimtex
+
 "let g:vimtex_enabled = 1
 "let g:vimtex_view_method = 'mupdf'
 let g:vimtex_view_method = 'zathura'
@@ -591,6 +744,7 @@ let g:vimtex_compiler_latexmk = {
 
 " Select Latex Compile Defaults
 " filetype plugin indent off
+" set shellslash
 let g:tex_flavor = "latex"
 let g:Tex_BibtexFlavor = 'biber'
 let g:Tex_DefaultTargetFormat='pdf'
