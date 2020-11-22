@@ -26,7 +26,7 @@ URxvt*termName: rxvt-unicode-256color
 URxvt*geometry: 160x75
 URxvt*loginShell: true
 URxvt*scrollBar: false
-URxvt*colorUL: yellow
+URxvt*colorUL: black
 URxvt*underlineColor: yellow
 URxvt*cursorBlink: true
 URxvt*cursorColor: magenta
