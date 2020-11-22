@@ -166,3 +166,23 @@ function customShutdown {
 function openAndDisown {
 	$@ & disown
 }
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/edwin/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/edwin/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/edwin/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/edwin/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

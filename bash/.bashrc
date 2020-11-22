@@ -68,8 +68,6 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
 base16_google-light
 #random-color-scheme.sh
 
-# Source alias not found hook
-#source /usr/share/doc/pkgfile/command-not-found.bash
 
 # Setting aliases
 
@@ -145,3 +143,4 @@ BROWSER=/usr/bin/firefox
 EDITOR=/usr/bin/vim
 
 export PATH=~/Jason/scripts/:$PATH
+export PATH="/home/edwin/miniconda3/bin:$PATH"
