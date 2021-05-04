@@ -145,6 +145,21 @@ set path+=**
 " Enable spellchecking (':set spell' to enable again)
 set spell
 
+" Use two spell languages by default
+set spelllang=en_us,nl,de
+
+" Accept spelling corrections on the fly
+" Source: castel.dev
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
+" In GUI versions, rely on undercurl for spell errors
+highlight SpellBad guibg=NONE 
+highlight SpellLocal guibg=NONE ctermbg=Yellow
+
+" Fix unreadable cases in the terminal
+highlight Visual ctermbg=Yellow
+
+
 " Enable syntax highlighting
 syntax on 
 
@@ -155,7 +170,7 @@ set ignorecase
 set hidden
 
 " Change default 8 column tab to 4 column tab and expand to spaces
-:set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 " Filetype detection
 if has("autocmd")
@@ -217,12 +232,6 @@ set fileencoding=utf-8
 
 " Highlight current line
 set cursorline
-
-" Use two spell languages by default
-set spelllang=en_us,nl,de
-
-" In GUI versions, rely on undercurl for spell errors
-highlight SpellBad guibg=NONE
 
 " don't give |ins-completion-menu| messages.
 set shortmess+=c
@@ -737,6 +746,9 @@ let g:vimtex_compiler_latexmk = {
 	\   '-interaction=nonstopmode',
 	\ ],
 	\}
+
+" Vimtex toggle TOC
+nnoremap <leader>lt :VimtexTocToggle<CR>
 
 "call deoplete#custom#var('omni', 'input_patterns', {
       "\ 'tex': g:vimtex#re#deoplete
