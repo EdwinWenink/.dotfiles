@@ -39,7 +39,8 @@ fi
 
 if [ "$(tty)" = "/dev/tty1" ]; then
 	startx &
-	xrandr --output VGA-1 --mode 1920x1080 &
+	#xrandr --output VGA-1 --mode 1920x1080 &
+    xrandr --output LVDS1 --mode 1600x900
     #/usr/local/bin/dwm_status.sh &
 	#exec dwm 
     exec i3wm

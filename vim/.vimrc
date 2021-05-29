@@ -51,12 +51,17 @@ Plug 'tpope/vim-repeat'
 
 " Autocompletion that only uses native vim autocomplete features
 " Plug 'lifepillar/vim-mucomplete'
+
 " Autocompletion
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+else
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'deoplete-plugins/deoplete-jedi'
+    Plug 'davidhalter/jedi-vim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 " Code formatting
 Plug 'prettier/vim-prettier', {
@@ -234,10 +239,12 @@ set fileencoding=utf-8
 set cursorline
 
 " don't give |ins-completion-menu| messages.
-set shortmess+=c
+set shortmess+=c "Shut off completion messages
 
 " do not show signcolumns
 set signcolumn=no
+
+set belloff+=ctrlg "Disable vim beeping during completion
 
 " PYTHON ----------------------------------------
 
@@ -553,10 +560,27 @@ let g:airline_theme='simple'
 highlight VertSplit cterm=NONE
 highlight FoldColumn ctermbg=NONE
 
+
+" Completion menu
+set completeopt +=menuone
+set completeopt +=longest
+set completeopt +=noselect
+autocmd FileType python setlocal completeopt-=preview
+
 " Deoplete
-let g:deoplete#enable_at_startup = 0
-" Enable snippet completion
-let g:neosnippet#enable_completed_snippet = 1
+let g:deoplete#enable_at_startup = 1
+
+" Jedi-vim (mappings for deoplete + python jedi server)
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 1
+let g:jedi#goto_command = "<leader>g"
+let g:jedi#goto_assignments_command = "<leader>a"
+let g:jedi#goto_stubs_command = "<leader>s"
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
 
 " Auto pairs
 " Avoid conflict with Mucomplete
@@ -582,10 +606,9 @@ let g:AutoPairsMapCR = 0
  "MUComplete settings
 "set completeopt+=menuone
 "set completeopt+=noselect
-"set shortmess+=c "Shut off completion messages
-"set belloff+=ctrlg "Disable vim beeping during completion
 "let g:mucomplete#enable_auto_at_startup = 1
 "let g:mucomplete#completion_delay = 1
+
 
 " I seem to have introduced some sort of recursive fallback in the case of
 " tex, when a completion is not found.

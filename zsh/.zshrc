@@ -151,6 +151,14 @@ alias tg='telegram-cli -N'
 export NOTES=/home/edwin/Documents/Notes
 export WEBSITE=/home/edwin/Website/personal_website
 
+# (Vim-like) bindings
+bindkey '^k' up-history
+bindkey '^j' down-history
+bindkey '^n' expand-or-complete
+bindkey '^p' reverse-menu-complete
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+
 command_not_found_handle() {
     echo "x" 
   return 127
