@@ -1,6 +1,7 @@
-# Academic / general
+# Academic / Programming
 http://matt.might.net/articles/feed.rss
 http://okmij.org/ftp/rss.xml
+https://blog.vivekhaldar.com/rss
 
 # Tech / Security / Privacy
 http://www.schneier.com/blog/index.rdf
@@ -9,12 +10,17 @@ https://onezero.medium.com/feed
 # Philosophy
 https://www.theguardian.com/world/philosophy/rss
 https://www.de-klos.net/index.xml
+https://www.newappsblog.com/atom.xml
+https://digressionsnimpressions.typepad.com/digressionsimpressions/atom.xml
+http://edwardfeser.blogspot.com/feeds/posts/default
 
 # Webmentions / Personal website
 https://www.edwinwenink.xyz/index.xml
 https://webmention.io/api/mentions.atom?token=I5QSyPcfY5uPRzrmuznRxQ
 
+# Political
+https://www.vrij-links.nl/feed/
+
 # Weblogs general
 https://nadiaeghbal.com/feed.xml
 https://www.ribbonfarm.com/
-https://augustusjustus.netlify.com/index.xml
