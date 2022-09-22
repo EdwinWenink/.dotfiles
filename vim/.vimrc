@@ -370,7 +370,7 @@ nnoremap <Right> :vertical-resize -2<CR>
 
 " Set your note directories here
 let g:notes_dir = "~/Documents/Notes/"
-let g:zettelkasten = "~/Documents/Notes/Zettelkasten/"
+let g:zettelkasten = "~/Documents/Notes/"
 
 " 'Notes Grep' with ripgrep (see grepprg)
 " -i case insensitive
@@ -569,14 +569,13 @@ autocmd FileType python setlocal completeopt-=preview
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
-
 " Jedi-vim (mappings for deoplete + python jedi server)
 let g:jedi#popup_on_dot = 0
 let g:jedi#popup_select_first = 1
 let g:jedi#goto_command = "<leader>g"
 let g:jedi#goto_assignments_command = "<leader>a"
 let g:jedi#goto_stubs_command = "<leader>s"
-let g:jedi#goto_definitions_command = ""
+let g:jedi#goto_definitions_command = "<leader>d"
 let g:jedi#documentation_command = "K"
 let g:jedi#usages_command = "<leader>n"
 let g:jedi#completions_command = "<C-Space>"

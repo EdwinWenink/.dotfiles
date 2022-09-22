@@ -34,6 +34,7 @@ PATH=$PATH:~/Scripts
 # Setting variables
 export PATH=$PATH:$HOME/.node_modules_global/bin
 export PATH=$PATH:/home/edwin/Documents/AI/clean3/bin
+export PATH=$PATH:/home/edwin/.local/bin
 export NOTES=/home/edwin/Documents/Notes
 export WEBSITE=/home/edwin/Website/personal_website
 
@@ -95,6 +96,8 @@ alias notes='vim ~/Documents/Notes/index.md'
 alias emacs='emacs & disown'
 alias weather='curl wttr.in'
 alias wifi='/bin/bash list_wifi.sh'
+alias duc='du -h --max-depth=1 | sort -h'
+alias elite='/home/edwin/.local/share/Steam/steamapps/common/Elite\ Dangerous/EDLaunch.exe'
 
 # Nicer command outputs
 alias ls='ls --color=auto'
