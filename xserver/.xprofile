@@ -1,0 +1,4 @@
+xbindkeys &
+random_background.sh & disown 
+dwm_status.sh & disown
+nm-applet & disown
