@@ -1,57 +1,48 @@
-! Dracula Xresources palette
-*.foreground: #F8F8F2
-*.background: #282A36
-*.color0:     #000000
-*.color8:     #4D4D4D
-*.color1:     #FF5555
-*.color9:     #FF6E67
-*.color2:     #50FA7B
-*.color10:    #5AF78E
-*.color3:     #F1FA8C
-*.color11:    #F4F99D
-*.color4:     #BD93F9
-*.color12:    #CAA9FA
-*.color5:     #FF79C6
-*.color13:    #FF92D0
-*.color6:     #8BE9FD
-*.color14:    #9AEDFE
-*.color7:     #BFBFBF
-*.color15:    #E6E6E6
+*.foreground:   #cdcdcd
+*.background:   #121317
+*.cursorColor:  #cdcdcd
 
-!URxvt settings
-! Unknown terminal name problem is caused by Anaconda for some reasoning overriding terminfo directories
-! Run `infocmp -D` to see terminfo dirs. 
-! Right term info resides in /usr/share/terminfo/r/rxvt-unicode-256color
+! black
+*.color0:       #282a2e
+*.color8:       #373b41
+
+! red
+*.color1:       #922230
+*.color9:       #923a45
+
+! green
+*.color2:       #0f8c61
+*.color10:      #198873
+
+! yellow
+*.color3:       #ba883d
+*.color11:      #ba9153
+
+! blue
+*.color4:       #277896
+*.color12:      #3c7e96
+
+! magenta
+*.color5:       #4b4574
+*.color13:      #53569b
+
+! cyan
+*.color6:       #638b83
+*.color14:      #7dbfb8
+
+! white
+*.color7:       #cdcdcd
+*.color15:      #cdcdcd
+
+! urxvt
 URxvt*termName: rxvt-unicode-256color
 URxvt*geometry: 160x75
 URxvt*loginShell: true
 URxvt*scrollBar: false
-URxvt*colorUL: black
-URxvt*underlineColor: yellow
+URxvt*depth: 32
+
 URxvt*cursorBlink: true
 URxvt*cursorColor: magenta
 URxvt*cursorUnderline: false
-URxvt*highlightColor: magenta
-URxvt*depth: 32
-!URxvt*font: xft:FontAwesome:pixelsize=15
-!URxvt*font: xft:Inconsolata:pixelsize=15
-!URxvt*font: xft:PragmataPro Mono Liga:pixelsize=14
-URxvt*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
 
-!Fix home and end button
-!URxvt.keysym.Home: \033[1~
-!URxvt.keysum.End: \033[4~
-!URxvt.keysum.KP_Home: \033[1~
-!URxvt.keysum.KP_End: \033[4~
-
-!xterm*font:     *-fixed-*-*-*-18-*
-XTerm*termName: xterm-256color
-XTerm*cursorBlink: true
-XTerm*cursorColor: magenta
-XTerm*cursorUnderline: false
-XTerm*colorUL: yellow
-XTerm*highlightColor: magenta
-XTerm*font: xft:PragmataPro Mono Liga:style=Regular:pixelsize=15
-!fix issue with mutt Alt key
-XTerm.vt100.metaSendsEscape: true
-XTerm*metaSendsEscape: true
+URxvt*font: xft:Noto Sans Mono:pixelsize=15

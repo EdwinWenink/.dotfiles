@@ -2,7 +2,8 @@
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
-sysresources=/etc/X11/xinit/.Xresources sysmodmap=/etc/X11/xinit/.Xmodmap
+sysresources=/etc/X11/xinit/.Xresources
+sysmodmap=/etc/X11/xinit/.Xmodmap
 
 # merge in defaults and keymaps
 
@@ -17,6 +18,7 @@ fi
 
 if [ -f "$userresources" ]; then
     xrdb -merge "$userresources"
+
 fi
 
 if [ -f "$usermodmap" ]; then
@@ -32,16 +34,9 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-if [ "$(tty)" = "/dev/tty6" ]; then
-	startx &
-	exec urxvt -e tmux
-fi
-
 if [ "$(tty)" = "/dev/tty1" ]; then
-	startx &
-	#xrandr --output VGA-1 --mode 1920x1080 &
-    #xrandr --output LVDS1 --mode 1600x900
-    #/usr/local/bin/dwm_status.sh &
-	#exec dwm
-    exec i3wm
+	~/.fehbg &
+    xbindkeys &
+	dwm_status.sh & disown
+	exec dwm
 fi
