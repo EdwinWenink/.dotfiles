@@ -1,6 +1,6 @@
 # .dotfiles
 
-Dotfiles for my arch linux install.
+Dotfiles for my Arch Linux install.
 
 ## Installation
 
