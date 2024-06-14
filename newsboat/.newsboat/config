@@ -25,7 +25,8 @@ text-width 80
 
 goto-next-feed no
 
-browser "firefox %u"
+#browser "firefox %u"
+browser "wslview"
 
 bind-key j down feedlist
 bind-key k up feedlist
