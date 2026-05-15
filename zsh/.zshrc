@@ -113,3 +113,4 @@ bindkey '^n' expand-or-complete
 bindkey '^p' reverse-menu-complete
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
+export PATH="$HOME/.local/bin:$PATH"
